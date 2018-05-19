@@ -1,0 +1,118 @@
+<div class="wrapper wrapper-full-page">
+    <nav class="navbar navbar-primary navbar-transparent navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-example">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" routerLink="/pages/login"> Authentification</a>
+            </div>
+            <div class="collapse navbar-collapse" id="menu-example">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a routerLink="dashboard">
+                            <i class="material-icons">dashboard</i> Dashboard
+                        </a>
+                    </li>
+                    <li class="">
+                        <a routerLink="/pages/register">
+                            <i class="material-icons">person_add</i> Register
+                        </a>
+                    </li>
+                    <li class=" active ">
+                        <a routerLink="/pages/login">
+                            <i class="material-icons">fingerprint</i> Login
+                        </a>
+                    </li>
+                    <!--
+                    <li class="">
+                        <a routerLink="/pages/lock">
+                            <i class="material-icons">lock_open</i> Lock
+                        </a>
+                    </li>
+                    -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="full-page login-page" filter-color="black">
+        <!--  you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+                        <form [formGroup]="loginForm" (ngSubmit)="login()">
+                            <div class="card card-login card-hidden">
+                                <div class="card-header text-center" data-background-color="rose">
+                                    <h4 class="card-title">Login</h4>
+                                    <div class="social-line">
+                                        <a href="#btn" class="btn btn-just-icon btn-simple">
+                                            <i class="fa fa-facebook-square"></i>
+                                        </a>
+                                        <a href="#pablo" class="btn btn-just-icon btn-simple">
+                                            <i class="fa fa-twitter"></i>
+                                        </a>
+                                        <a href="#eugen" class="btn btn-just-icon btn-simple">
+                                            <i class="fa fa-google-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <p class="category text-center">
+                                    Or Be Classical
+                                </p>
+                                <div class="card-content">
+
+                                    <div class="input-group" [ngClass]="setClassEmail()">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">email</i>
+                                        </span>
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">Email address</label>
+                                            <input class="form-control" type="email" name="email" formControlName="email" placeholder="Email" autofocus>
+                                        </div>
+                                    </div>
+                                    <div class="input-group" [ngClass]="setClassPassword()">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">lock_outline</i>
+                                        </span>
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">Password</label>
+                                            <input class="form-control" type="password" name="password" formControlName="password" placeholder="Password">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer text-center">
+                                    <button type="submit" class="btn btn-rose btn-simple btn-wd btn-lg"  [disabled]="!loginForm.valid">Let's go</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container">
+
+                <p class="copyright pull-right">
+
+
+                    <img src="../../../assets/img/sofrecom20x20.png">
+                    &copy;
+                    {{test | date: 'yyyy'}}
+
+                  Sofrecom, The Know-How Network    <img src="../../../assets/img/sofrecom23x23.png">
+                </p>
+            </div>
+        </footer>
+     <!--   <div class="full-page-background" style="background-image: url(../../../assets/img/login.jpeg) "></div>
+     -->
+        <!--   <div class="full-page-background" style="background-image: url(../../../assets/img/sofrecom1.jpg) "></div>
+            -->
+        <!--   <div class="full-page-background" style="background-image: url(../../../assets/img/sofrecom7.jpg) "></div>
+    -->
+        <div class="full-page-background" style="background-image: url(../../../assets/img/sofrecom5.jpg) "></div>
+    </div>
+</div>

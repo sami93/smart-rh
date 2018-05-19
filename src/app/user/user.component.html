@@ -1,0 +1,233 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div id="bg">
+            <img src="../../assets/img/multi1.jpg"  alt=""/>
+        </div>
+        <particles [params]="myParams" [style]="myStyle" [width]="width" [height]="height"></particles>
+        <h1 style="color:dodgerblue;" align="center">
+            <teximate [text]="text" [effect]="effectOptions" [hover]="hoverOptions"></teximate>
+        </h1>
+
+
+
+
+        <div class="container mat-elevation-z8">
+            <div class="row">
+                <div class="col-sm-11">
+                    <div class="form">
+                        <mat-form-field floatPlaceholder="never" color="accent">
+                            <input matInput #filter placeholder="Recherche des utilisateurs par Nom">
+                        </mat-form-field>
+                    </div>
+
+                    <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+
+                        <!--- Note that these columns can be defined in any order.
+                              The actual rendered columns are set as a property on the row definition" -->
+
+                        <!-- ID Column -->
+                        <ng-container matColumnDef="_id">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>_id</mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{row._id}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="username">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>username</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.username}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="email" layout-align="center center">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>email</mat-header-cell>
+                            <mat-cell *matCellDef="let row" layout-align="center center"> {{row.email}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="role">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>role</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.role}}</mat-cell>
+                        </ng-container>
+
+
+
+                        <!-- actions -->
+                        <ng-container matColumnDef="actions">
+                            <mat-header-cell *matHeaderCellDef>
+                                <button mat-icon-button color="primary" data-toggle="modal" data-target="#myModal">
+                                    <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+                                </button>
+                            </mat-header-cell>
+
+                            <mat-cell *matCellDef="let row; let i=index;">
+
+                                <button mat-icon-button color="accent" (click)="startEdit(i, row)"
+                                        matTooltip="Editer {{row.username}}" [matTooltipPosition]="'above'">
+                                    <mat-icon aria-label="Edit" class="white-icon">edit</mat-icon>
+                                </button>
+
+                                <button mat-icon-button color="accent" (click)="deleteItem(i, row)"
+                                        matTooltip="Supprimer {{row.username}}" [matTooltipPosition]="'above'">
+                                    <mat-icon aria-label="Delete" class="white-icon">delete</mat-icon>
+                                </button>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
+
+
+                    <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+                        No results
+                    </div>
+
+                    <mat-paginator #paginator
+                                   [length]="dataSource.filteredData.length"
+                                   [pageIndex]="0"
+                                   [pageSize]="10"
+                                   [pageSizeOptions]="[5, 10, 25, 100]">
+                    </mat-paginator>
+                </div>
+
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog" role="document">
+
+                        <!-- Modal content-->
+                        <form [formGroup]="addDataSetForm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <div id="banner"><img src="assets/img/logo.png"></div>
+                                    <div class="main-contents">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="card">
+                                                        <div class="card-header" >
+                                                            <h4 class="title"><i class="fa fa-plus-circle"></i> Ajouter
+                                                                un nouvel utilisateur</h4>
+                                                            <p class="category">Compléter toutes les informations</p>
+                                                        </div>
+
+
+                                                        <table class="table table-bordered   ">
+                                                            <tbody>
+
+                                                            <tr>
+                                                                <div class="form-group">
+
+                                                                    <td><label for="username"><b><i
+                                                                            class="fa fa-user-secret "
+                                                                            aria-hidden="true"> username:</i>
+                                                                    </b></label></td>
+                                                                    <td>
+                                                                        <input class="form-control" id="username"
+                                                                               type="text" name="username"
+                                                                               formControlName="username"
+                                                                               placeholder="username"
+                                                                        >
+
+
+                                                                </div>
+                                                            </tr>
+                                                            <tr>
+
+                                                                <div class="form-group">
+
+                                                                    <td><label for="email"><b><i class="fa fa-user-plus "
+                                                                                                 aria-hidden="true">
+                                                                        email:</i> </b></label></td>
+
+
+                                                                    <td>
+
+                                                                        <input class="form-control" id="email"
+                                                                               type="email" name="email"
+                                                                               formControlName="email"
+                                                                               placeholder="email">
+                                                                    </td>
+                                                                </div>
+
+
+                                                            </tr>
+
+                                                            <tr>
+
+                                                                <div class="form-group">
+
+                                                                    <td><label for="password"><b><i class="fa fa-user-plus "
+                                                                                                    aria-hidden="true">
+                                                                        password:</i> </b></label></td>
+
+
+                                                                    <td>
+
+                                                                        <input class="form-control" id="password"
+                                                                               type="password" name="password"
+                                                                               formControlName="password"
+                                                                               placeholder="password">
+                                                                    </td>
+                                                                </div>
+
+
+                                                            </tr>
+
+                                                            <tr>
+                                                                <div class="form-group">
+                                                                    <td><label for="role"><b><i
+                                                                            class="fa fa-user-circle "
+                                                                            aria-hidden="true"> role:</i> </b></label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <mat-form-field>
+                                                                            <mat-select placeholder="Role" [formControl]="role" required>
+                                                                                <mat-option>--</mat-option>
+                                                                                <mat-option *ngFor="let role of roles" [value]="role">
+                                                                                    {{role.name}}
+                                                                                </mat-option>
+                                                                            </mat-select>
+                                                                            <mat-error *ngIf="role.hasError('required')">Sélectionner un role</mat-error>
+                                                                            <mat-hint>{{role.value?.sound}}</mat-hint>
+                                                                        </mat-form-field>
+
+                                                                    </td>
+                                                                </div>
+                                                            </tr>
+
+
+
+                                                            </tbody>
+                                                        </table>
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="modal-body">
+
+
+
+                                </div>
+
+                                <div class="modal-footer">
+
+
+                                    <!--   <button type="btn btn-primary" class="btn btn-default" data-dismiss="modal"><i class="fa fa-floppy-o"></i> Close</button> -->
+                                    <button class="btn btn-success" type="submit" [disabled]="!addDataSetForm.valid"
+                                            (click)="addDataSet()" data-dismiss="modal"><i class="fa fa-plus"></i> Ajouter
+                                    </button>
+
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

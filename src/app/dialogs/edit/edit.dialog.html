@@ -1,0 +1,202 @@
+<div class="container">
+
+            <h3 mat-dialog-title>Employé: {{data.NOM + ' ' + data.PRENOM}}</h3>
+
+            <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
+
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput #input placeholder="Matricule" [(ngModel)]="data.Matricule"
+                               name="Matricule" required readonly>
+                        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!--Textarea for demo purposes-->
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <textarea matInput #input  placeholder="NOM" [(ngModel)]="data.NOM"
+                                  name="NOM" required></textarea>
+                        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
+                </div>
+
+
+                <!--Contains mat-hint for characters count and has maxLengt set-->
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput #inputstate  placeholder="Civilite"
+                               [(ngModel)]="data.Civilite" name="Civilite"  required>
+                       <!--  <input matInput #inputstate class="form-control" placeholder="Civilite"
+                               [(ngModel)]="data.Civilite" name="Civilite" maxlength="10" > -->
+                        <!--    <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+                  <mat-hint align="end">{{inputstate.value?.length || 0}}/10</mat-hint> -->
+                    </mat-form-field>
+                </div>
+
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="SITUATION_FAMILIALE" [(ngModel)]="data.SITUATION_FAMILIALE"
+                               name="SITUATION_FAMILIALE">
+                    </mat-form-field>
+                </div>
+
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="DateEmbauche" [(ngModel)]="data.DateEmbauche" name="DateEmbauche">
+                    </mat-form-field>
+                </div>
+
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Date_de_Naissance" [(ngModel)]="data.Date_de_Naissance" name="Date_de_Naissance">
+                    </mat-form-field>
+                </div>
+
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="EXPERIENCE_AVANT_SOFRECOM"
+                               [(ngModel)]="data.EXPERIENCE_AVANT_SOFRECOM" name="EXPERIENCE_AVANT_SOFRECOM">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="EXPERIENCE_SOFRECOM" [(ngModel)]="data.EXPERIENCE_SOFRECOM"
+                               name="EXPERIENCE_SOFRECOM">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="EXPERIENCE_Totale" [(ngModel)]="data.EXPERIENCE_Totale"
+                               name="EXPERIENCE_Totale">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Ecole" [(ngModel)]="data.Ecole" name="Ecole">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Manager" [(ngModel)]="data.Manager" name="Manager">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Pole" [(ngModel)]="data.Pole" name="Pole">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Poste" [(ngModel)]="data.Poste" name="Poste">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Seniorite" [(ngModel)]="data.Seniorite" name="Seniorite">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Niveau_Academique" [(ngModel)]="data.Niveau_Academique" name="Niveau_Academique">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Dernier_Employeur" [(ngModel)]="data.Dernier_Employeur" name="Dernier_Employeur">
+                    </mat-form-field>
+                </div>
+
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Eval_3_mois" [(ngModel)]="data.Eval_3_mois" name="Eval_3_mois">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Fin_PE" [(ngModel)]="data.Fin_PE" name="Fin_PE">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Mois" [(ngModel)]="data.Mois" name="Mois">
+                    </mat-form-field>
+                </div>
+
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Date_de_depot_de_demission" [(ngModel)]="data.Date_de_depot_de_demission" name="Date_de_depot_de_demission">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="DATE_SORTIE_Paie" [(ngModel)]="data.DATE_SORTIE_Paie" name="DATE_SORTIE_Paie">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Date_de_sortie_RH" [(ngModel)]="data.Date_de_sortie_RH" name="Date_de_sortie_RH">
+                    </mat-form-field>
+                </div>
+
+
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Mois_de_sortie_RH" [(ngModel)]="data.Mois_de_sortie_RH" name="Mois_de_sortie_RH">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="ANNEE_SORTIE" [(ngModel)]="data.ANNEE_SORTIE" name="ANNEE_SORTIE">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="MOIS_SORTIE" [(ngModel)]="data.MOIS_SORTIE" name="MOIS_SORTIE">
+                    </mat-form-field>
+                </div>
+
+
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Moyenne_preavis" [(ngModel)]="data.Moyenne_preavis" name="Moyenne_preavis">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Nombre_moyen_Arrondi" [(ngModel)]="data.Nombre_moyen_de_mois_de_preavis_Arrondi" name="Nombre_moyen_de_mois_de_preavis_Arrondi">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Nombre_moyen" [(ngModel)]="data.Nombre_moyen_de_mois_de_preavis" name="Nombre_moyen_de_mois_de_preavis">
+                    </mat-form-field>
+                </div>
+
+
+
+
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Raison_de_depart" [(ngModel)]="data.Raison_de_depart" name="Raison_de_depart">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Destination" [(ngModel)]="data.Destination" name="Destination">
+                    </mat-form-field>
+                </div>
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <input matInput placeholder="Nationalite" [(ngModel)]="data.Nationalite" name="Nationalite">
+                    </mat-form-field>
+                </div>
+                <div mat-dialog-actions>
+                    <button mat-button [type]="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1"
+                            (click)="stopEdit()">Save
+                    </button>
+                    <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+                </div>
+            </form>
+
+</div>

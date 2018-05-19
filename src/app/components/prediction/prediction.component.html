@@ -1,0 +1,85 @@
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div id="bg">
+            <img src="../../../assets/img/prediction.jpg"  alt=""/>
+        </div>
+                <div class="container mat-elevation-z8">
+                    <div class="row">
+
+
+                        <div  class="col-sm-5">
+
+
+                    <div class="form">
+                        <mat-form-field floatPlaceholder="never" color="accent">
+                            <input matInput #filter placeholder="Recherche par Matricule">
+                        </mat-form-field>
+                    </div>
+
+
+                    <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+
+                        <!--- Note that these columns can be defined in any order.
+                              The actual rendered columns are set as a property on the row definition" -->
+
+                        <!-- ID Column -->
+                        <ng-container matColumnDef="Matricule">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Matricule</mat-header-cell>
+                            <mat-cell *matCellDef="let row" >{{row.Matricule}}</mat-cell>
+                        </ng-container>
+
+
+
+
+
+
+                        <!-- actions -->
+                        <ng-container matColumnDef="actions">
+                            <mat-header-cell *matHeaderCellDef>
+                            Actions
+                            </mat-header-cell>
+
+                            <mat-cell *matCellDef="let row; let i=index;">
+                              <!--  <button class="btn btn-info btn-sm" (click)="predictPerson(row)"> -->
+                                <button class="btn btn-info btn-sm" (click)="TensorflowPredictionPerPerson(row)">
+                            <span class="btn-label">
+                                <i class="material-icons">check</i>
+                            </span>
+                                    Prédiction
+                                </button>
+
+
+                                <button class="btn btn-success btn-sm" (click)="showHistorique(row)">
+                            <span class="btn-label">
+                                <i class="material-icons">info</i>
+                            </span>
+                                    Historique
+                                </button>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
+
+
+                    <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+                        No results
+                    </div>
+
+                    <mat-paginator #paginator
+                                   [length]="dataSource.filteredData.length"
+                                   [pageIndex]="0"
+                                   [pageSize]="10"
+                                   [pageSizeOptions]="[5, 10, 25, 100]">
+                    </mat-paginator>
+                    </div>
+                    <div class="col-sm-6"><router-outlet></router-outlet></div>
+
+            </div></div></div> </div>
+
+
+
+
+
