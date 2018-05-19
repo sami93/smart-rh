@@ -25,6 +25,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import * as JSPdf from 'jspdf';
 import {TeximateHover, TeximateOptions, TeximateOrder} from 'ng-teximate';
 import { DatePipe } from '@angular/common';
+import {UrlService} from '../services/url.service';
 declare var jsPDF: any; // Important
 @Component({
     selector: 'app-turnover',
@@ -103,7 +104,8 @@ export class TurnoverComponent implements OnInit {
                 public predictionservice: PredictionService,
                 private router: Router,
                 private formBuilder: FormBuilder,
-                private datePipe: DatePipe) {
+                private datePipe: DatePipe,
+                private urlservice : UrlService) {
     }
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -641,7 +643,7 @@ export class TurnoverComponent implements OnInit {
     }
 
     public loadData() {
-        this.exampleDatabase = new DataService(this.httpClient);
+        this.exampleDatabase = new DataService(this.httpClient, this.urlservice);
         this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator, this.sort);
         Observable.fromEvent(this.filter.nativeElement, 'keyup')
             .debounceTime(150)

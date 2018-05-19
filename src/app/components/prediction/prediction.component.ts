@@ -20,6 +20,7 @@ import {Http, Response, URLSearchParams, Headers, RequestOptions} from '@angular
 import {Subject} from 'rxjs/Rx';
 import 'rxjs/add/operator/do';
 import {Router} from '@angular/router';
+import {UrlService} from '../../services/url.service';
 
 
 @Component({
@@ -57,7 +58,8 @@ export class PredictionComponent implements OnInit {
                 private http: Http,
                 private predictionservice: PredictionService,
                 private dataSetService: DataSetService,
-                private router: Router) {
+                private router: Router,
+                private urlservice: UrlService) {
     }
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -100,7 +102,7 @@ export class PredictionComponent implements OnInit {
     }
 
     public loadData() {
-        this.exampleDatabase = new DataService(this.httpClient);
+        this.exampleDatabase = new DataService(this.httpClient, this.urlservice);
         this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator, this.sort);
         Observable.fromEvent(this.filter.nativeElement, 'keyup')
             .debounceTime(150)

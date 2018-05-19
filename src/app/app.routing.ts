@@ -3,6 +3,7 @@ import {Routes} from '@angular/router';
 import {AdminLayoutComponent} from './layouts/admin/admin-layout.component';
 import {AuthLayoutComponent} from './layouts/auth/auth-layout.component';
 import {AuthGuardLogin} from './services/auth-guard-login.service';
+import {AuthGuardAdmin} from './services/auth-guard-admin.service';
 
 export const AppRoutes: Routes = [
     {
@@ -12,53 +13,37 @@ export const AppRoutes: Routes = [
     }, {
         path: '',
         component: AdminLayoutComponent,
-        //canActivate: [AuthGuardLogin],
+
         children: [
             {
                 path: '',
-                loadChildren: './dashboard/dashboard.module#DashboardModule'
+                loadChildren: './dashboard/dashboard.module#DashboardModule',
+                canActivate: [AuthGuardLogin]
             },
             {
                 path: 'account',
-                loadChildren: './account/account.module#AccountModule'
+                loadChildren: './account/account.module#AccountModule',
+                canActivate: [AuthGuardLogin]
             },
             {
                 path: '',
-                loadChildren: './turnover/turnover.module#TurnoverModule'
+                loadChildren: './turnover/turnover.module#TurnoverModule',
+                canActivate: [AuthGuardLogin]
             },
             {
                 path: '',
-                loadChildren: './user/user.module#UserListModule'
+                loadChildren: './user/user.module#UserListModule',
+                canActivate: [AuthGuardAdmin]
             },
 
             {
                 path: 'components',
-                loadChildren: './components/components.module#ComponentsModule'
-            },
-            {
-                path: 'forms',
-                loadChildren: './forms/forms.module#Forms'
-            }, {
-                path: 'tables',
-                loadChildren: './tables/tables.module#TablesModule'
-            }, {
-                path: 'maps',
-                loadChildren: './maps/maps.module#MapsModule'
-            }, {
-                path: 'widgets',
-                loadChildren: './widgets/widgets.module#WidgetsModule'
-            }, {
-                path: 'charts',
-                loadChildren: './charts/charts.module#ChartsModule'
-            }, {
-                path: 'calendar',
-                loadChildren: './calendar/calendar.module#CalendarModule'
-            }, {
+                loadChildren: './components/components.module#ComponentsModule',
+                canActivate: [AuthGuardLogin]
+            },{
                 path: '',
-                loadChildren: './userpage/user.module#UserModule'
-            }, {
-                path: '',
-                loadChildren: './timeline/timeline.module#TimelineModule'
+                loadChildren: './userpage/user.module#UserModule',
+                canActivate: [AuthGuardLogin]
             }
         ]
     }, {

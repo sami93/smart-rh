@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import swal from 'sweetalert2';
+import {UrlService} from './url.service';
 
 @Injectable()
 export class PredictionService {
@@ -41,37 +42,37 @@ export class PredictionService {
     m: string;
     Api_url = 'http://localhost:3000/';
 
-    constructor(private http: Http) {
+    constructor(private http: Http , private urlservice : UrlService) {
     }
 
     predict_post(predictions): Observable<any> {
-        return this.http.post(this.Api_url + 'api/prediction', JSON.stringify(predictions), this.options);
+        return this.http.post(this.urlservice.url + '/api/prediction', JSON.stringify(predictions), this.options);
     }
 
     editPrediction(predict): Observable<any> {
-        return this.http.patch(this.Api_url + `api/prediction_update`, JSON.stringify(predict), this.options);
+        return this.http.patch(this.urlservice.url + `/api/prediction_update`, JSON.stringify(predict), this.options);
     }
 
     editPredictionAll(predict): Observable<any> {
-        return this.http.patch(this.Api_url + `api/prediction_update_all`, JSON.stringify(predict), this.options);
+        return this.http.patch(this.urlservice.url + `/api/prediction_update_all`, JSON.stringify(predict), this.options);
     }
 
     getPrediction(prediction): Observable<any> {
-        return this.http.get(this.Api_url + `api/prediction/${prediction._id}`).map(res => res.json());
+        return this.http.get(this.urlservice.url + `/api/prediction/${prediction._id}`).map(res => res.json());
     }
 
 
     getPredictionMatricule(Matricule): Observable<any> {
-        return this.http.get(this.Api_url + `api/predictionMat/${Matricule}`).map(res => res.json());
+        return this.http.get(this.urlservice.url + `/api/predictionMat/${Matricule}`).map(res => res.json());
     }
 
 
     getPredictionAll(predictions): Observable<any> {
-        return this.http.post(this.Api_url + 'api/prediction/allPerson', JSON.stringify(predictions), this.options);
+        return this.http.post(this.urlservice.url + '/api/prediction/allPerson', JSON.stringify(predictions), this.options);
     }
 
     PredictionPerPerson(predictions): Observable<any> {
-        return this.http.post(this.Api_url + 'api/prediction/getPathOfCsvPersonToPredict', JSON.stringify(predictions), this.options);
+        return this.http.post(this.urlservice.url + '/api/prediction/getPathOfCsvPersonToPredict', JSON.stringify(predictions), this.options);
     }
 
 

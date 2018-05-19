@@ -4,14 +4,19 @@ import {Issue} from '../models/issue';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {PredictionIssue} from '../models/predictionIssue';
 import {UserIssue} from '../models/userIssue';
+import {UrlService} from './url.service';
 
 @Injectable()
 export class DataService {
+
+
+    constructor(private httpClient: HttpClient, private urlservice : UrlService) {
+    }
     private readonly API_URL_Ancien = 'https://api.github.com/repos/angular/angular/issues';
-    private readonly API_URL_Prediction = 'http://84.39.44.181:3000/api/predictions';
-    private readonly API_URL = 'http://84.39.44.181:3000/api/dataset';
-    private readonly API_URL_MatriculeOnePrediction = 'http://84.39.44.181:3000/api/predictionMat/';
-    private readonly API_URL_User = 'http://84.39.44.181:3000/api/users';
+    private readonly API_URL_Prediction = this.urlservice.url + '/api/predictions';
+    private readonly API_URL = this.urlservice.url +'/api/dataset';
+    private readonly API_URL_MatriculeOnePrediction = this.urlservice.url +'/api/predictionMat/';
+    private readonly API_URL_User = this.urlservice.url +'/api/users';
     dataChangePrediction: BehaviorSubject<PredictionIssue[]> = new BehaviorSubject<PredictionIssue[]>([]);
     dataChange: BehaviorSubject<Issue[]> = new BehaviorSubject<Issue[]>([]);
     dataChangeUser: BehaviorSubject<UserIssue[]> = new BehaviorSubject<UserIssue[]>([]);
@@ -19,10 +24,6 @@ export class DataService {
     // Temporarily stores data from dialogs
     dialogData: any;
     dataChangePredictionByMatricule: BehaviorSubject<PredictionIssue[]> = new BehaviorSubject<PredictionIssue[]>([]);
-
-    constructor(private httpClient: HttpClient) {
-    }
-
     get data(): any[] {
         return this.dataChange.value;
     }

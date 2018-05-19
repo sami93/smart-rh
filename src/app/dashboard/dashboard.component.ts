@@ -219,8 +219,34 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
+
+        this.datasetService.count_SITUATION_FAMILIALE().subscribe(res => {
+            this.chart = this.AmCharts.makeChart('chartSituationFamiliale', {
+                'type': 'pie',
+                'theme': 'light',
+                'titles': [{
+                    'text': 'Situation Familiale',
+                    'size': 16
+                }],
+                'dataProvider': res,
+                'valueField': 'count',
+                'titleField': '_id',
+                'startEffect': 'elastic',
+                'startDuration': 2,
+                'labelRadius': 15,
+                'innerRadius': '50%',
+                'depth3D': 10,
+                'balloonText': '[[title]]<br><span style=\'font-size:14px\'><b>[[value]]</b> ([[percents]]%)</span>',
+                'angle': 15,
+                'export': {
+                    'enabled': true
+                }
+            });
+        }, erreur => {
+        });
+
         this.datasetService.count_Seniorite().subscribe(res => {
-            this.chart = this.AmCharts.makeChart('chartdiv', {
+            this.chart = this.AmCharts.makeChart('chartSeniorite', {
                 'type': 'pie',
                 'theme': 'light',
                 'titles': [{

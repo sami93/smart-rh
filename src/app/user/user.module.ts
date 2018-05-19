@@ -19,6 +19,7 @@ import {ParticlesModule} from 'angular-particle';
 import {TeximateModule} from 'ng-teximate';
 import {UserService} from '../services/user.service';
 import {EditDialogComponent} from '../dialoguser/edit/edit.dialog.component';
+import {UrlService} from '../services/url.service';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import {EditDialogComponent} from '../dialoguser/edit/edit.dialog.component';
         DataSetService,
         PredictionService,
         DatePipe,
-        UserService
+        UserService,
+        UrlService
     ]
 })
 

@@ -25,6 +25,7 @@ import { DatePipe } from '@angular/common';
 import {UserIssue} from '../models/userIssue';
 import {UserService} from '../services/user.service';
 import {EditDialogComponent} from '../dialoguser/edit/edit.dialog.component';
+import {UrlService} from '../services/url.service';
 declare var jsPDF: any; // Important
 @Component({
     selector: 'app-user',
@@ -80,7 +81,8 @@ export class UserListComponent implements OnInit {
                 private router: Router,
                 private formBuilder: FormBuilder,
                 private datePipe: DatePipe,
-                private userService: UserService) {
+                private userService: UserService,
+                private urlservice: UrlService) {
     }
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -237,7 +239,7 @@ export class UserListComponent implements OnInit {
     }
 
     public loadData() {
-        this.exampleDatabase = new DataService(this.httpClient);
+        this.exampleDatabase = new DataService(this.httpClient, this.urlservice);
         this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator, this.sort);
         Observable.fromEvent(this.filter.nativeElement, 'keyup')
             .debounceTime(150)
@@ -249,6 +251,7 @@ export class UserListComponent implements OnInit {
                 this.dataSource.filter = this.filter.nativeElement.value;
             });
     }
+
     addDataSet() {
 
         this.addDataSetForm.value.role=this.addDataSetForm.value.role.name

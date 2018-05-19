@@ -18,6 +18,7 @@ import {PredictionService} from '../services/prediction.service';
 import {HttpModule} from '@angular/http';
 import {ParticlesModule} from 'angular-particle';
 import {TeximateModule} from 'ng-teximate';
+import {UrlService} from '../services/url.service';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import {TeximateModule} from 'ng-teximate';
         DataService,
         DataSetService,
         PredictionService,
-        DatePipe
+        DatePipe,
+        UrlService
     ]
 })
 

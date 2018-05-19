@@ -53,6 +53,7 @@ import {AuthGuardLogin} from './services/auth-guard-login.service';
 import {UserService} from './services/user.service';
 import {AuthGuardAdmin} from './services/auth-guard-admin.service';
 import {PredictionService} from './services/prediction.service';
+import {UrlService} from './services/url.service';
 
 @NgModule({
     exports: [
@@ -114,7 +115,8 @@ export class MaterialModule {}
         AuthGuardLogin,
         AuthGuardAdmin,
         UserService,
-        PredictionService
+        PredictionService,
+        UrlService
     ],
     bootstrap:    [ AppComponent ]
 })

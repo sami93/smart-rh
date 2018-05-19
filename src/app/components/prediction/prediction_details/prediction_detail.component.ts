@@ -25,6 +25,7 @@ import 'rxjs/add/operator/do';
 import {Router} from '@angular/router';
 import {PredictionHistoryPerson} from '../../../models/predictionHistoryPerson';
 import * as JSPdf from 'jspdf';
+import {UrlService} from '../../../services/url.service';
 
 @Component({
     selector: 'app-predictiondetail',
@@ -63,7 +64,8 @@ export class PredictionDetailComponent implements OnInit, OnDestroy, OnChanges {
                 private http: Http,
                 private predictionservice: PredictionService,
                 public dataSetService: DataSetService,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private urlService: UrlService) {
     }
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -122,7 +124,7 @@ export class PredictionDetailComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     public loadData() {
-        this.exampleDatabase = new DataService(this.httpClient);
+        this.exampleDatabase = new DataService(this.httpClient, this.urlService);
         this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator, this.sort, this.id);
 
         Observable.fromEvent(this.filter.nativeElement, 'keyup')
