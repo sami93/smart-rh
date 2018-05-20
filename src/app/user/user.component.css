@@ -20,6 +20,22 @@
 }
 element.style {
 }
+::ng-deep .mat-input-wrapper{
+    font-size: 13pt;
+    color: #f06e57	;;
+}
+
+ .placeholder {
+     color: #f06e57;
+     font-weight: 800
+}
+
+.md-input-focused  .placeholder {
+    color: #f06e57;;
+    font-weight: 800
+}
+
+
 .modal-content .modal-body .modal-footer {
     padding-top: 0;
 }
@@ -129,7 +145,7 @@ element.style {
 
 
 .white-icon {
-    color: orangered;
+    color: mediumvioletred;
 }
 /* Note: If you're using an SVG icon, you should make the class target the `<svg>` element */
 .white-icon svg {

@@ -14,7 +14,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a routerLink="dashboard">
-                            <i class="material-icons">dashboard</i> Dashboard
+                            <i class="material-icons">dashboard</i> Tableau de bord
                         </a>
                     </li>
 
@@ -41,24 +41,14 @@
                 <div class="row">
                     <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
                         <form [formGroup]="loginForm" (ngSubmit)="login()">
-                            <div class="card card-login card-hidden">
-                                <div class="card-header text-center" data-background-color="rose">
+                            <div class="card card-login card-hidden" style="width: 450px;">
+                                <div class="card-header text-center" data-background-color="blue">
                                     <h4 class="card-title">Login</h4>
                                     <div class="social-line">
-                                        <a href="#btn" class="btn btn-just-icon btn-simple">
-                                            <i class="fa fa-facebook-square"></i>
-                                        </a>
-                                        <a href="#pablo" class="btn btn-just-icon btn-simple">
-                                            <i class="fa fa-twitter"></i>
-                                        </a>
-                                        <a href="#eugen" class="btn btn-just-icon btn-simple">
-                                            <i class="fa fa-google-plus"></i>
-                                        </a>
+                                        <h6>Sofrecom, The Know-How Network</h6>
                                     </div>
                                 </div>
-                                <p class="category text-center">
-                                    Or Be Classical
-                                </p>
+
                                 <div class="card-content">
 
                                     <div class="input-group" [ngClass]="setClassEmail()">
@@ -66,7 +56,7 @@
                                             <i class="material-icons">email</i>
                                         </span>
                                         <div class="form-group label-floating">
-                                            <label class="control-label">Email address</label>
+                                            <label class="control-label">Adresse email</label>
                                             <input class="form-control" type="email" name="email" formControlName="email" placeholder="Email" autofocus>
                                         </div>
                                     </div>
@@ -75,13 +65,14 @@
                                             <i class="material-icons">lock_outline</i>
                                         </span>
                                         <div class="form-group label-floating">
-                                            <label class="control-label">Password</label>
+                                            <label class="control-label">Mot de passe</label>
                                             <input class="form-control" type="password" name="password" formControlName="password" placeholder="Password">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="footer text-center">
-                                    <button type="submit" class="btn btn-rose btn-simple btn-wd btn-lg"  [disabled]="!loginForm.valid">Let's go</button>
+                                    <button type="submit" class="btn btn-info btn-simple btn-wd btn-lg"  [disabled]="!loginForm.valid"><b>S'identifier</b></button>
+
                                 </div>
                             </div>
                         </form>

@@ -1,6 +1,6 @@
 <div class="container" style="width:485px; !important; "  >
 
-            <h3 mat-dialog-title>Utilisateur: {{data.username + ' '}}</h3>
+            <h3 mat-dialog-title>Modification de l'utilisateur: {{data.username + ' '}}</h3>
 
             <form class="mat-dialog-content" style="width:485px; height:300px!important; " (ngSubmit)="submit" #formControl="ngForm">
 
@@ -37,9 +37,9 @@
 
                 <div mat-dialog-actions>
                     <button mat-button [type]="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1"
-                            (click)="stopEdit()">Save
+                            (click)="stopEdit()">Enregistrer
                     </button>
-                    <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+                    <button mat-button (click)="onNoClick()" tabindex="-1">Annuler</button>
                 </div>
             </form>
 

@@ -22,6 +22,7 @@ declare const $: any;
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     public tableData: TableData;
     private chart: AmChart;
+    private chartSeniorite: AmChart;
 
 
     constructor(private AmCharts: AmChartsService,
@@ -246,25 +247,31 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         this.datasetService.count_Seniorite().subscribe(res => {
-            this.chart = this.AmCharts.makeChart('chartSeniorite', {
-                'type': 'pie',
-                'theme': 'light',
+            this.chartSeniorite = this.AmCharts.makeChart('chartSeniorite', {
+                "type": "funnel",
+                "theme": "light",
                 'titles': [{
                     'text': 'Séniorité',
                     'size': 16
                 }],
-                'dataProvider': res,
-                'valueField': 'count',
-                'titleField': '_id',
-                'startEffect': 'elastic',
-                'startDuration': 2,
-                'labelRadius': 15,
-                'innerRadius': '50%',
-                'depth3D': 10,
-                'balloonText': '[[title]]<br><span style=\'font-size:14px\'><b>[[value]]</b> ([[percents]]%)</span>',
-                'angle': 15,
-                'export': {
-                    'enabled': true
+                "dataProvider": res,
+                "balloon": {
+                    "fixedPosition": true
+                },
+                "valueField": "count",
+                "titleField": "_id",
+                "marginRight": 240,
+                "marginLeft": 50,
+                "startX": -500,
+                "depth3D": 100,
+                "angle": 40,
+                "outlineAlpha": 1,
+                "outlineColor": "#FFFFFF",
+                "outlineThickness": 2,
+                "labelPosition": "right",
+                "balloonText": "[[_id]]: [[count]]n[[description]]",
+                "export": {
+                    "enabled": true
                 }
             });
         }, erreur => {

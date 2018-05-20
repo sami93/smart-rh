@@ -4,8 +4,8 @@
             <img src="../../assets/img/multi1.jpg"  alt=""/>
         </div>
         <particles [params]="myParams" [style]="myStyle" [width]="width" [height]="height"></particles>
-        <h1 style="color:dodgerblue;" align="center">
-            <teximate [text]="text" [effect]="effectOptions" [hover]="hoverOptions"></teximate>
+        <h1 style="color:mediumorchid;font-weight: 400" align="center">
+           <teximate [text]="text" [effect]="effectOptions" [hover]="hoverOptions"></teximate>
         </h1>
 
 
@@ -15,8 +15,10 @@
             <div class="row">
                 <div class="col-sm-11">
                     <div class="form">
-                        <mat-form-field floatPlaceholder="never" color="accent">
-                            <input matInput #filter placeholder="Recherche des utilisateurs par Nom">
+                        <mat-form-field  style=" font-weight: 600">
+                            <input matInput #filter type="text" >
+                            <mat-placeholder class="placeholder" style=" font-weight: 600">Recherche des utilisateurs par Nom</mat-placeholder>
+
                         </mat-form-field>
                     </div>
 
@@ -172,7 +174,7 @@
 
                                                             <tr>
                                                                 <div class="form-group">
-                                                                    <td><label for="role"><b><i
+                                                                    <td><label ><b><i
                                                                             class="fa fa-user-circle "
                                                                             aria-hidden="true"> role:</i> </b></label>
                                                                     </td>

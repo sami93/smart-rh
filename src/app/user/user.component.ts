@@ -115,7 +115,7 @@ export class UserListComponent implements OnInit {
                     value: 100,
                 },
                 color: {
-                    value: '#1E90FF'
+                    value: '#FF00FF'
                 },
                 shape: {
                     type: 'circle',
@@ -204,7 +204,13 @@ export class UserListComponent implements OnInit {
             if (result === 1) {
                 this.userService.deleteUser(dataset).subscribe(
                     res => {
-
+                        swal({
+                            title: 'Suppression de ' + dataset.username,
+                            text: '',
+                            type: 'error',
+                            confirmButtonClass: 'btn btn-info',
+                            buttonsStyling: false
+                        });
 
                         const foundIndex = this.exampleDatabase.dataChangeUser.value.findIndex(x => x._id === this._id2);
                         console.log(foundIndex);
