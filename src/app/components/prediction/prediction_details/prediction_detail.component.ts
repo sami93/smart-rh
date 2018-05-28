@@ -181,7 +181,7 @@ export class PredictionDetailComponent implements OnInit, OnDestroy, OnChanges {
                 console.log(dataset);
                 let doc = new JSPdf();
                 doc.text(100, 10, "SOFRECOM");
-                doc.text(80, 20, "Les Informations de " + this.id);
+                doc.text(80, 20, "Les Informations de " + dataset[0].NOM + ' ' + dataset[0].PRENOM);
                 for (var predict_history = 0; predict_history < dataset.length; predict_history++) {
                     doc.setFont("courier", "bold");
                     doc.setFontSize(15);

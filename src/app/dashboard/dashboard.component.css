@@ -1,0 +1,153 @@
+/* Structure */
+.table td, .table th {
+    text-align: center;
+    width: 25%;
+}
+#banner{
+    width: 60%;
+    left: 0px;
+    right: 0px;
+}
+.main-contents[_ngcontent-c0] {
+    border-bottom: none;
+    padding-top: 20px;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+.card-header[_ngcontent-c0] {
+    background-color: #D2FFD2;
+}
+element.style {
+}
+::ng-deep .mat-input-wrapper{
+    font-size: 13pt;
+    color: #f06e57	;;
+}
+
+.placeholder {
+    color: #f06e57;
+    font-weight: 800
+}
+
+.md-input-focused  .placeholder {
+    color: #f06e57;;
+    font-weight: 800
+}
+
+
+.modal-content .modal-body .modal-footer {
+    padding-top: 0;
+}
+.modal-content .modal-footer {
+    border-top: none;
+}
+#banner img{
+    width: 50%;
+    left: 0px;
+    right: 0px;
+}
+.emoji{
+    display:inline-block;
+}
+.card-header{
+    background-color: 	#00CED1;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Toolbar */
+.spacer {
+    flex: 1 1 auto;
+}
+
+/* Filter */
+.form {
+    min-height: 56px;
+    max-height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 8px 24px 0;
+    font-size: 20px;
+    justify-content: space-between;
+    border-bottom: 1px solid transparent;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    flex-grow: 1;
+    margin-top: 8px;
+
+}
+
+/* Mat table */
+.no-results {
+    display: flex;
+    justify-content: center;
+    padding: 14px;
+    font-size: 14px;
+    font-style: italic;
+}
+
+
+.mat-cell:nth-child(1),
+.mat-header-cell:nth-child(1){
+    flex: 0 0 20%;
+
+}
+
+.mat-cell:nth-child(2),
+.mat-header-cell:nth-child(2){
+    flex: 0 0 10%;
+
+}
+
+.mat-cell:nth-child(3),
+.mat-header-cell:nth-child(3){
+    flex: 0 0 20%;
+
+}
+
+.mat-cell:nth-child(7),
+.mat-header-cell:nth-child(7){
+    flex: 0 0 7%;
+
+}
+#bg {
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+}
+#bg img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    min-width: 50%;
+    min-height: 50%;
+}
+#bg img {
+    opacity: 1;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+}
+
+#bg img:hover {
+    opacity: 1.0;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+}
+
+
+.white-icon {
+    color: mediumvioletred;
+}
+/* Note: If you're using an SVG icon, you should make the class target the `<svg>` element */
+.white-icon svg {
+    fill: orangered;
+}

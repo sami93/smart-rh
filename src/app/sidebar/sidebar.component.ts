@@ -34,12 +34,12 @@ export class SidebarComponent implements OnInit {
     public menuItems: any[];
     constructor(public auth: AuthService){
 if(this.auth.isAdmin){
-    ROUTES = [/*{
+    ROUTES = [{
         path: '/dashboard',
         title: 'Tableau de bord',
         type: 'link',
         icontype: 'dashboard'
-    },*/
+    },
         {
             path: '/account',
             title: 'Compte',
@@ -61,6 +61,8 @@ if(this.auth.isAdmin){
             children: [
                 /* {path: 'buttons', title: 'Buttons', ab: 'B'},
                  {path: 'grid', title: 'Grid System', ab: 'GS'}, */
+                {path: 'modèle_de_prediction', title: 'Modèle',  type: 'sub', ab: 'M' },
+
                 {path: 'prediction', title: 'Liste Prédictions',  type: 'sub', ab: 'P' }
                 /* {path: 'panels', title: 'Panels', ab: 'P'},
                  {path: 'sweet-alert', title: 'Sweet Alert', ab: 'SA'},

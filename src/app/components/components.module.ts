@@ -16,6 +16,7 @@ import {PredictionService} from '../services/prediction.service';
 import {DataService} from '../services/data.service';
 import {PredictionDetailComponent} from './prediction/prediction_details/prediction_detail.component';
 import {UrlService} from '../services/url.service';
+import {ModelPredictionComponent} from "./modelPrediction/modelPrediction.component";
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import {UrlService} from '../services/url.service';
       ButtonsComponent,
       SweetAlertComponent,
       PredictionComponent,
-      PredictionDetailComponent
+      PredictionDetailComponent,
+      ModelPredictionComponent
   ],
     providers: [
         DataService,

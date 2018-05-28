@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
+import swal from "sweetalert2";
 
 declare var $: any;
 
@@ -57,10 +58,23 @@ export class LoginComponent implements OnInit {
         this.auth.login(this.loginForm.value).subscribe(
             res => {
                 this.router.navigate(['/dashboard']) ;
-            console.log('samiiiiii');
+               swal({
+                    type: 'success',
+                    title: 'Signed in successfully',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+
             },
-            error => console.log('erreur')
+            error => this.erreur (error, 'Login Erreur')
         );
+    }
+    erreur(err, NameOfError) {
+        swal(
+            '' + NameOfError,
+            '' + JSON.stringify(err),
+            'error'
+        )
     }
     sidebarToggle() {
         var toggleButton = this.toggleButton;

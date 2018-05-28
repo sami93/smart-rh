@@ -175,6 +175,13 @@ export class UserListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result === 1) {
+                swal({
+                    title: 'Succès de modification',
+                    text: 'Informations de ' + dataset.username + ' sont modifiées' ,
+                    showConfirmButton: false,
+                    timer: 2500,
+                    type: 'success'
+                });
                 // Part where we do frontend update, first you need to find record using id
                 const foundIndex = this.exampleDatabase.dataChangeUser.value.findIndex(x => x._id === this._id2);
                 // Then you update that record using dialogData
@@ -263,11 +270,15 @@ export class UserListComponent implements OnInit {
         this.addDataSetForm.value.role=this.addDataSetForm.value.role.name
 
         this.userService.register(this.addDataSetForm.value).subscribe(
-            res => {
-                console.log(typeof res)
-                console.log(res)
-                console.log(JSON.parse(res._body));
-                console.log('222222');
+            res => {let result = JSON.parse(res._body);
+
+                swal({
+                    title: 'Succès d\'ajout',
+                    text: 'Utilisateur ' + result.username + ' ajouté' ,
+                    showConfirmButton: false,
+                    timer: 2500,
+                    type: 'success'
+                });
                 this.exampleDatabase.dataChangeUser.value.push(JSON.parse(res._body));
                 this.refreshTable();
                 this.refresh()

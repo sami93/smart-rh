@@ -3,7 +3,7 @@
         <div id="bg">
             <img src="../../assets/img/sofrecom7_fixedsize.jpg"  alt=""/>
         </div>
-        <particles [params]="myParams" [style]="myStyle" [width]="width" [height]="height"></particles>
+       <!-- <particles [params]="myParams" [style]="myStyle" [width]="width" [height]="height"></particles> -->
         <h1 style="color:dodgerblue;" align="center">
             <teximate [text]="text" [effect]="effectOptions" [hover]="hoverOptions"></teximate>
         </h1>
@@ -18,68 +18,7 @@
         </div>
 
 
-        <table id="basic-table" style="display: none;">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Email</th>
-                <th>Country</th>
-                <th>IP-address</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td align="right">1</td>
-                <td>Donna</td>
-                <td>Moore</td>
-                <td>dmoore0@furl.net</td>
-                <td>China</td>
-                <td>211.56.242.221</td>
-            </tr>
-            <tr>
-                <td align="right">2</td>
-                <td>Janice</td>
-                <td>Henry</td>
-                <td>jhenry1@theatlantic.com</td>
-                <td>Ukraine</td>
-                <td>38.36.7.199</td>
-            </tr>
-            <tr>
-                <td align="right">3</td>
-                <td>Ruth</td>
-                <td>Wells</td>
-                <td>rwells2@constantcontact.com</td>
-                <td>Trinidad and Tobago</td>
-                <td>19.162.133.184</td>
-            </tr>
-            <tr>
-                <td align="right">4</td>
-                <td>Jason</td>
-                <td>Ray</td>
-                <td>jray3@psu.edu</td>
-                <td>Brazil</td>
-                <td>10.68.11.42</td>
-            </tr>
-            <tr>
-                <td align="right">5</td>
-                <td>Jane</td>
-                <td>Stephens</td>
-                <td>jstephens4@go.com</td>
-                <td>United States</td>
-                <td>47.32.129.71</td>
-            </tr>
-            <tr>
-                <td align="right">6</td>
-                <td>Adam</td>
-                <td>Nichols</td>
-                <td>anichols5@com.com</td>
-                <td>Canada</td>
-                <td>18.186.38.37</td>
-            </tr>
-            </tbody>
-        </table>
+
         <div class="container mat-elevation-z8">
             <div class="row">
                 <div class="col-sm-11">
@@ -182,20 +121,15 @@
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     <div id="banner"><img src="assets/img/logo.png"></div>
 
-                                </div>
-
-
-                                <div class="modal-body">
-
-                                    <div class="main-content">
+                                    <div class="main-contents">
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="card">
                                                         <div class="card-header" data-background-color="orange">
-                                                            <h4 class="title"><i class="fa fa-plus-circle"></i> Ajouter
+                                                            <h4 class="title" style="  color: 	#F0EFEB;"><i class="fa fa-plus-circle"></i> Ajouter
                                                                 un nouveau Employé</h4>
-                                                            <p class="category">Compléter toutes les informations</p>
+                                                            <p class="category" style="  color: 	#F0EFEB;">Compléter toutes les informations</p>
                                                         </div>
 
 
@@ -215,6 +149,7 @@
                                                                                formControlName="Matricule"
                                                                                placeholder="Matricule"
                                                                                min="0">
+                                                                    </td>
 
 
                                                                 </div>
@@ -224,7 +159,7 @@
                                                                 <div class="form-group">
 
                                                                     <td><label for="NOM"><b><i class="fa fa-user-plus "
-                                                                                                aria-hidden="true">
+                                                                                               aria-hidden="true">
                                                                         NOM:</i> </b></label></td>
 
 
@@ -245,7 +180,7 @@
                                                                 <div class="form-group">
 
                                                                     <td><label for="PRENOM"><b><i class="fa fa-user-plus "
-                                                                                               aria-hidden="true">
+                                                                                                  aria-hidden="true">
                                                                         Name:</i> </b></label></td>
 
 
@@ -285,14 +220,27 @@
                                                                         Civilite:</i> </b></label></td>
                                                                     <td>
 
-                                                                        <select name="Civilite" class="form-control"
+                                                                       <!-- <select name="Civilite" class="form-control"
                                                                                 id="Civilite"
                                                                                 formControlName="Civilite">
                                                                             <option value="Monsieur">Monsieur</option>
                                                                             <option value="Madame">Madame</option>
                                                                             <option value="Mademoiselle">Mademoiselle
                                                                             </option>
-                                                                        </select></td>
+                                                                        </select>
+                                                                    -->
+                                                                        <mat-form-field>
+                                                                            <mat-select id="Civilite" name="Civilite" placeholder="Choisir Civilité" [formControl]="Civilite" required>
+                                                                                <mat-option>--</mat-option>
+                                                                                <mat-option *ngFor="let civilite of Liste_Civilite" [value]="civilite">
+                                                                                    {{civilite._id}}
+                                                                                </mat-option>
+                                                                            </mat-select>
+                                                                            <mat-error *ngIf="Civilite.hasError('required')">Choisir Civilité</mat-error>
+                                                                            <mat-hint>{{Civilite.value?._id}}</mat-hint>
+                                                                        </mat-form-field>
+
+                                                                    </td>
 
                                                                 </div>
                                                             </tr>
@@ -335,14 +283,27 @@
                                                                     </b></label></td>
                                                                     <td>
 
-                                                                        <select name="SITUATION_FAMILIALE"
+                                                                      <!--  <select name="SITUATION_FAMILIALE"
                                                                                 id="SITUATION_FAMILIALE"
                                                                                 class="form-control"
                                                                                 formControlName="SITUATION_FAMILIALE">
                                                                             <option value="Célibataire">Célibataire</option>
                                                                             <option value="Marié">Marié</option>
                                                                             <option value="Divorcé">Divorcé</option>
-                                                                        </select></td>
+                                                                        </select>
+                                                                    -->
+                                                                        <mat-form-field>
+                                                                            <mat-select id="SITUATION_FAMILIALE" name="SITUATION_FAMILIALE" placeholder="Choisir SITUATION FAMILIALE" [formControl]="SITUATION_FAMILIALE" required>
+                                                                                <mat-option>--</mat-option>
+                                                                                <mat-option *ngFor="let situationfamiliale of Liste_SITUATION_FAMILIALE" [value]="situationfamiliale">
+                                                                                    {{situationfamiliale._id}}
+                                                                                </mat-option>
+                                                                            </mat-select>
+                                                                            <mat-error *ngIf="SITUATION_FAMILIALE.hasError('required')">Choisir SITUATION FAMILIALE</mat-error>
+                                                                            <mat-hint>{{SITUATION_FAMILIALE.value?._id}}</mat-hint>
+                                                                        </mat-form-field>
+
+                                                                    </td>
 
                                                                 </div>
                                                             </tr>
@@ -383,7 +344,7 @@
                                                                                name="EXPERIENCE_SOFRECOM"
                                                                                formControlName="EXPERIENCE_SOFRECOM"
                                                                                placeholder="EXPERIENCE_SOFRECOM"
-                                                                               min="0">
+                                                                               min="0"></td>
 
                                                                 </tr>
                                                             </div>
@@ -400,6 +361,7 @@
                                                                                formControlName="EXPERIENCE_Totale"
                                                                                placeholder="EXPERIENCE_Totale"
                                                                                min="0">
+                                                                    </td>
 
                                                                 </tr>
                                                             </div>
@@ -416,7 +378,7 @@
                                                                                id="Ecole" name="Ecole"
                                                                                formControlName="Ecole"
                                                                                placeholder="Ecole"
-                                                                               min="0">
+                                                                               min="0"></td>
 
                                                                 </tr>
                                                             </div>
@@ -428,11 +390,23 @@
                                                                             aria-hidden="true"> Manager:</i>
                                                                     </b></label></td>
                                                                     <td>
-                                                                        <input class="form-control" id="Manager"
+                                                                       <!-- <input class="form-control" id="Manager"
                                                                                type="text" name="Manager"
                                                                                formControlName="Manager"
                                                                                placeholder="Mx"
                                                                         >
+                                                                        -->
+                                                                        <mat-form-field>
+                                                                            <mat-select id="Manager" name="Manager" placeholder="Choisir Manager" [formControl]="Manager" required>
+                                                                                <mat-option>--</mat-option>
+                                                                                <mat-option *ngFor="let manager of Liste_Manager" [value]="manager">
+                                                                                    {{manager._id}}
+                                                                                </mat-option>
+                                                                            </mat-select>
+                                                                            <mat-error *ngIf="Manager.hasError('required')">Choisir Manager</mat-error>
+                                                                            <mat-hint>{{Manager.value?._id}}</mat-hint>
+                                                                        </mat-form-field>
+                                                                    </td>
 
                                                                 </tr>
                                                             </div>
@@ -446,10 +420,22 @@
                                                                                                 aria-hidden="true">
                                                                         Pole:</i> </b></label></td>
                                                                     <td>
-                                                                        <input class="form-control" id="Pole"
+                                                                        <!--<input class="form-control" id="Pole"
                                                                                type="text" name="Pole"
                                                                                formControlName="Pole" placeholder="Pole"
-                                                                        >
+                                                                        > -->
+                                                                        <mat-form-field>
+                                                                            <mat-select id="Pole" name="Pole" placeholder="Choisir Pôle" [formControl]="Pole" required>
+                                                                                <mat-option>--</mat-option>
+                                                                                <mat-option *ngFor="let pole of Liste_Pole" [value]="pole">
+                                                                                    {{pole._id}}
+                                                                                </mat-option>
+                                                                            </mat-select>
+                                                                            <mat-error *ngIf="Pole.hasError('required')">Choisir Pôle</mat-error>
+                                                                            <mat-hint>{{Pole.value?._id}}</mat-hint>
+                                                                        </mat-form-field>
+
+                                                                    </td>
 
                                                                 </tr>
                                                             </div>
@@ -462,11 +448,22 @@
                                                                             aria-hidden="true"> Poste:</i> </b></label>
                                                                     </td>
                                                                     <td>
-                                                                        <input class="form-control" id="Poste"
+                                                                        <!--<input class="form-control" id="Poste"
                                                                                type="text" name="Poste"
                                                                                formControlName="Poste"
                                                                                placeholder="Poste"
-                                                                        >
+                                                                        > -->
+                                                                        <mat-form-field>
+                                                                            <mat-select id="Poste" name="Poste" placeholder="Choisir Poste" [formControl]="Poste" required>
+                                                                                <mat-option>--</mat-option>
+                                                                                <mat-option *ngFor="let poste of Liste_Poste" [value]="poste">
+                                                                                    {{poste._id}}
+                                                                                </mat-option>
+                                                                            </mat-select>
+                                                                            <mat-error *ngIf="Poste.hasError('required')">Choisir Poste</mat-error>
+                                                                            <mat-hint>{{Poste.value?._id}}</mat-hint>
+                                                                        </mat-form-field>
+                                                                    </td>
 
                                                                 </tr>
                                                             </div>
@@ -476,16 +473,27 @@
                                                                 <tr>
                                                                     <td><label for="Seniorite"><b><i
                                                                             class="fa fa-user-circle-o "
-                                                                            aria-hidden="true"> Seniorite:</i> </b></label>
+                                                                            aria-hidden="true"> Séniorité:</i> </b></label>
                                                                     </td>
                                                                     <td>
-                                                                        <input class="form-control" id="Seniorite" type="text"
-                                                                               name="v" formControlName="Seniorite"
-                                                                                placeholder="Seniorite"
-                                                                        >
+
+                                                                        <mat-form-field>
+                                                                            <mat-select id="Seniorite" name="Seniorite" placeholder="Choisir Séniorité" [formControl]="Seniorite" required>
+                                                                                <mat-option>--</mat-option>
+                                                                                <mat-option *ngFor="let seniorite of Liste_Seniorite" [value]="seniorite">
+                                                                                    {{seniorite._id}}
+                                                                                </mat-option>
+                                                                            </mat-select>
+                                                                            <mat-error *ngIf="Seniorite.hasError('required')">Choisir Séniorité</mat-error>
+                                                                            <mat-hint>{{Seniorite.value?._id}}</mat-hint>
+                                                                        </mat-form-field>
+                                                                    </td>
 
                                                                 </tr>
                                                             </div>
+
+
+
 
 
 
@@ -499,7 +507,7 @@
                                                                         <input class="form-control" id="Niveau_Academique" type="text"
                                                                                name="v" formControlName="Niveau_Academique"
                                                                                placeholder="Niveau_Academique"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -514,7 +522,7 @@
                                                                         <input class="form-control" id="Dernier_Employeur" type="text"
                                                                                name="v" formControlName="Dernier_Employeur"
                                                                                placeholder="Dernier_Employeur"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -532,7 +540,7 @@
                                                                         <input class="form-control" id="Eval_3_mois" type="text"
                                                                                name="v" formControlName="Eval_3_mois"
                                                                                placeholder="Eval_3_mois"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -547,7 +555,7 @@
                                                                         <input class="form-control" id="Fin_PE" type="text"
                                                                                name="v" formControlName="Fin_PE"
                                                                                placeholder="Fin_PE"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -565,7 +573,7 @@
                                                                         <input class="form-control" id="Mois" type="text"
                                                                                name="v" formControlName="Mois"
                                                                                placeholder="Mois"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -581,7 +589,7 @@
                                                                         <input class="form-control" id="Date_de_depot_de_demission" type="date"
                                                                                name="v" formControlName="Date_de_depot_de_demission"
                                                                                placeholder="Date_de_depot_de_demission"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -598,7 +606,7 @@
                                                                         <input class="form-control" id="DATE_SORTIE_Paie" type="date"
                                                                                name="v" formControlName="DATE_SORTIE_Paie"
                                                                                placeholder="DATE_SORTIE_Paie"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -616,7 +624,7 @@
                                                                         <input class="form-control" id="Date_de_sortie_RH" type="date"
                                                                                name="v" formControlName="Date_de_sortie_RH"
                                                                                placeholder="Date_de_sortie_RH"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -633,7 +641,7 @@
                                                                         <input class="form-control" id="Mois_de_sortie_RH" type="text"
                                                                                name="v" formControlName="Mois_de_sortie_RH"
                                                                                placeholder="Mois_de_sortie_RH"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -650,7 +658,7 @@
                                                                         <input class="form-control" id="ANNEE_SORTIE" type="text"
                                                                                name="v" formControlName="ANNEE_SORTIE"
                                                                                placeholder="ANNEE_SORTIE"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -668,7 +676,7 @@
                                                                         <input class="form-control" id="MOIS_SORTIE" type="text"
                                                                                name="v" formControlName="MOIS_SORTIE"
                                                                                placeholder="MOIS_SORTIE"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -686,7 +694,7 @@
                                                                         <input class="form-control" id="Moyenne_preavis" type="text"
                                                                                name="v" formControlName="Moyenne_preavis"
                                                                                placeholder="Moyenne_preavis"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -703,7 +711,7 @@
                                                                         <input class="form-control" id="Nombre_moyen_de_mois_de_preavis_Arrondi" type="text"
                                                                                name="v" formControlName="Nombre_moyen_de_mois_de_preavis_Arrondi"
                                                                                placeholder="Nombre_moyen_Arrondi"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -723,7 +731,7 @@
                                                                         <input class="form-control" id="Nombre_moyen_de_mois_de_preavis" type="text"
                                                                                name="v" formControlName="Nombre_moyen_de_mois_de_preavis"
                                                                                placeholder="Nombre_moyen"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -738,7 +746,7 @@
                                                                         <input class="form-control" id="Raison_de_depart" type="text"
                                                                                name="v" formControlName="Raison_de_depart"
                                                                                placeholder="Raison_de_depart"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -756,7 +764,7 @@
                                                                         <input class="form-control" id="Destination" type="text"
                                                                                name="v" formControlName="Destination"
                                                                                placeholder="Destination"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -771,7 +779,7 @@
                                                                         <input class="form-control" id="Nationalite" type="text"
                                                                                name="v" formControlName="Nationalite"
                                                                                placeholder="Nationalite"
-                                                                        >
+                                                                        ></td>
 
                                                                 </tr>
                                                             </div>
@@ -786,6 +794,13 @@
                                         </div>
                                     </div>
 
+
+                                </div>
+
+
+                                <div class="modal-body">
+
+
                                 </div>
 
                                 <div class="modal-footer">
@@ -793,7 +808,7 @@
 
                                     <!--   <button type="btn btn-primary" class="btn btn-default" data-dismiss="modal"><i class="fa fa-floppy-o"></i> Close</button> -->
                                     <button class="btn btn-primary" type="submit" [disabled]="!addDataSetForm.valid"
-                                            (click)="addDataSet()" data-dismiss="modal"><i class="fa fa-plus"></i> ADD
+                                            (click)="addDataSet()" data-dismiss="modal"><i class="fa fa-plus"></i> Ajouter un employé
                                     </button>
 
 

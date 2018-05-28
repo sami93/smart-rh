@@ -29,10 +29,43 @@ export class DataSetService {
     count_SITUATION_FAMILIALE(): Observable<any> {
         return this.http.get(this.urlservice.url  + '/api/dataset/count_SITUATION_FAMILIALE').map(res => res.json());
     }
+    count_partition_Age(): Observable<any> {
+        return this.http.get(this.urlservice.url  + '/api/dataset/count_partition_Age').map(res => res.json());
+    }
     addDataSet(dataset): Observable<any> {
         console.log(JSON.stringify(dataset));
         console.log(JSON.stringify(this.options));
         return this.http.post(this.urlservice.url  +'/api/dataset', JSON.stringify(dataset), this.options);
+    }
+
+    count_Civilite(): Observable<any> {
+        return this.http.get(this.urlservice.url  + '/api/dataset/count_Civilite').map(res => res.json());
+    }
+    count_Civilite_count(civilite): Observable<any> {
+        return this.http.get(this.urlservice.url  +`/api/dataset/count_Civilite_count/${civilite}`).map(res => res.json());
+    }
+
+
+    getListe_Pole(): Observable<any> {
+        return this.http.get(this.urlservice.url  +`/api/dataset/Liste_Pole`).map(res => res.json());
+    }
+
+    getListe_Poste(): Observable<any> {
+        return this.http.get(this.urlservice.url  +`/api/dataset/Liste_Poste`).map(res => res.json());
+    }
+
+    getListe_Manager(): Observable<any> {
+        return this.http.get(this.urlservice.url  +`/api/dataset/Liste_Manager`).map(res => res.json());
+    }
+
+    getListe_Seniorite(): Observable<any> {
+        return this.http.get(this.urlservice.url  +`/api/dataset/Liste_Seniorite`).map(res => res.json());
+    }
+    getListe_SITUATION_FAMILIALE(): Observable<any> {
+        return this.http.get(this.urlservice.url  +`/api/dataset/Liste_SITUATION_FAMILIALE`).map(res => res.json());
+    }
+    getListe_Civilite(): Observable<any> {
+        return this.http.get(this.urlservice.url  +`/api/dataset/Liste_Civilite`).map(res => res.json());
     }
 
     getDataSet(dataset): Observable<any> {

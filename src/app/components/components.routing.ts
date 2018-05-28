@@ -4,6 +4,7 @@ import {ButtonsComponent} from './buttons/buttons.component';
 import {SweetAlertComponent} from './sweetalert/sweetalert.component';
 import {PredictionComponent} from './prediction/prediction.component';
 import {PredictionDetailComponent} from './prediction/prediction_details/prediction_detail.component';
+import {ModelPredictionComponent} from "./modelPrediction/modelPrediction.component";
 
 
 export const ComponentsRoutes: Routes = [
@@ -12,6 +13,13 @@ export const ComponentsRoutes: Routes = [
         children: [{
             path: 'buttons',
             component: ButtonsComponent
+        }]
+    },
+    {
+        path: '',
+        children: [{
+            path: 'modèle_de_prediction',
+            component: ModelPredictionComponent
         }]
     },
    {

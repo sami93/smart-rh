@@ -24,8 +24,9 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import * as JSPdf from 'jspdf';
 import {TeximateHover, TeximateOptions, TeximateOrder} from 'ng-teximate';
-import { DatePipe } from '@angular/common';
+import {DatePipe} from '@angular/common';
 import {UrlService} from '../services/url.service';
+
 declare var jsPDF: any; // Important
 @Component({
     selector: 'app-turnover',
@@ -77,6 +78,12 @@ export class TurnoverComponent implements OnInit {
     Raison_de_depart = new FormControl('');
     Destination = new FormControl('');
     Nationalite = new FormControl('');
+    Liste_Manager : any = [];
+    Liste_Pole : any = [];
+    Liste_Poste : any = [];
+    Liste_Seniorite : any = [];
+    Liste_SITUATION_FAMILIALE : any = [];
+    Liste_Civilite : any = [];
     myStyle: object = {};
     myParams: object = {};
     width = 100;
@@ -96,6 +103,7 @@ export class TurnoverComponent implements OnInit {
         in: 'zoomOutUp',
         out: 'bounceInDown'
     };
+
     constructor(public httpClient: HttpClient,
                 public http: Http,
                 public dialog: MatDialog,
@@ -105,7 +113,7 @@ export class TurnoverComponent implements OnInit {
                 private router: Router,
                 private formBuilder: FormBuilder,
                 private datePipe: DatePipe,
-                private urlservice : UrlService) {
+                private urlservice: UrlService) {
     }
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -114,6 +122,37 @@ export class TurnoverComponent implements OnInit {
 
 
     ngOnInit() {
+
+this.datasetService.getListe_Manager().subscribe(res => {
+        this.Liste_Manager = res;
+
+    },
+    err => {this.erreur(err, "erreur listeManager");})
+        this.datasetService.getListe_Pole().subscribe(res => {
+                this.Liste_Pole = res;
+
+            },
+            err => {this.erreur(err, "erreur Liste_Pole");})
+        this.datasetService.getListe_Poste().subscribe(res => {
+                this.Liste_Poste = res;
+
+            },
+            err => {this.erreur(err, "erreur Liste_Poste");})
+        this.datasetService.getListe_Seniorite().subscribe(res => {
+                this.Liste_Seniorite = res;
+
+            },
+            err => {this.erreur(err, "erreur Liste_Seniorite");})
+        this.datasetService.getListe_SITUATION_FAMILIALE().subscribe(res => {
+                this.Liste_SITUATION_FAMILIALE = res;
+
+            },
+            err => {this.erreur(err, "erreur Liste_SITUATION_FAMILIALE");})
+        this.datasetService.getListe_Civilite().subscribe(res => {
+                this.Liste_Civilite = res;
+
+            },
+            err => {this.erreur(err, "erreur Liste_Civilite");})
         this.addDataSetForm = this.formBuilder.group({
             Matricule: this.Matricule,
             NOM: this.NOM,
@@ -221,33 +260,62 @@ export class TurnoverComponent implements OnInit {
         );
     }
 
-    TensorflowPredictionPerPerson(row){
+    TensorflowPredictionPerPerson(row) {
 
         swal({
-            title: 'Chargement Prédiction ...',
-            text: 'Il va se fermer en quelques secondes.',
-            timer: 7000,
-            onOpen: () => {
-                this.datasetService.predictionPerPerson(row).subscribe(
-                    prediction => {
+            title: 'Êtes-vous sûr ?',
+            text: 'Voulez-vous effectuer la prédiction ?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Oui',
+            cancelButtonText: 'Non',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false
+        }).then(() => {
+            swal({
+                title: 'Chargement Prédiction ...',
+                text: 'Il va se fermer en quelques secondes.',
+                timer: 7000,
+                onOpen: () => {
+                    this.datasetService.predictionPerPerson(row).subscribe(
 
-                        swal({
-                            title: 'Prédiction de '+ row.Matricule,
-                            text: '',
-                            type: 'success',
-                            confirmButtonClass: 'btn btn-success',
-                            buttonsStyling: false
+                        prediction => {
+
+                            console.log(prediction)
+                            swal({
+                                title: 'Prédiction de ' + row.Matricule,
+                                text: '= ' + prediction.predict_value + '   date : ' + prediction.date_value + ' | ' + prediction.time_value,
+                                type: 'success',
+                                confirmButtonClass: 'btn btn-success',
+                                buttonsStyling: false
+                            });
+                            this.router.navigate(['/components/prediction', row.Matricule]);
+                        },
+                        erreur => {
+                            this.erreur(erreur, 'Prediction erreur')
                         });
-                       this.router.navigate(['/components/prediction', row.Matricule]);
-                    },
-                    erreur => {this.erreur(erreur, 'Prediction erreur')});
-                swal.showLoading()
+                    swal.showLoading()
+                }
+            }).then((result) => {
+
+                //result.dismiss === 0
+
+            });
+
+
+        }, (dismiss) => {
+            // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+            if (dismiss === 'cancel') {
+                swal({
+                    title: 'Annulé',
+                    text: '',
+                    type: 'error',
+                    confirmButtonClass: 'btn btn-info',
+                    buttonsStyling: false
+                });
             }
-        }).then((result) => {
-
-            //result.dismiss === 0
-
-        });
+        }).catch(swal.noop);
 
 
     }
@@ -294,7 +362,7 @@ export class TurnoverComponent implements OnInit {
                   */
                 let item = {
                     'Matricule': dataset.Matricule,
-                    'NOM': dataset.NOM + ' ' + dataset.PRENOM ,
+                    'NOM': dataset.NOM + ' ' + dataset.PRENOM,
                     'Age': dataset.Age,
                     'Civilite': dataset.Civilite,
                     'DateEmbauche': dataset.DateEmbauche,
@@ -318,7 +386,6 @@ export class TurnoverComponent implements OnInit {
                     'Nationalite': dataset.Nationalite
 
 
-
                 };
 
                 var i = 30;
@@ -335,6 +402,7 @@ export class TurnoverComponent implements OnInit {
             },
             erreur => console.log('erreur'));
     }
+
     public infoPersonne(dataset: any) {
         console.log(dataset);
         this.datasetService.getDataSetbyMatricule(dataset).subscribe(
@@ -342,7 +410,7 @@ export class TurnoverComponent implements OnInit {
                 const DataInfo = data;
                 swal({
                     title: '  <span style="color:#6495ED;font-weight:bold">'
-                    + DataInfo.NOM + ' '  + DataInfo.PRENOM +  '</span> ',
+                    + DataInfo.NOM + ' ' + DataInfo.PRENOM + '</span> ',
                     showConfirmButton: true,
                     width: '825px',
                     html: `<center><table id="table" border=1 class="table table-bordered  table-striped">
@@ -397,7 +465,7 @@ export class TurnoverComponent implements OnInit {
       </tr>
          <tr>
             <td>Manager</td>
-                <td>` +'...' + `</td>
+                <td>` + DataInfo.Manager + `</td>
       </tr>
    
   
@@ -523,6 +591,7 @@ export class TurnoverComponent implements OnInit {
 
 
     }
+
     erreur(err, NameOfError) {
         swal(
             '' + NameOfError,
@@ -535,14 +604,14 @@ export class TurnoverComponent implements OnInit {
         this.index = i;
         this.Matricule2 = dataset.Matricule;
         const dialogRef = this.dialog.open(EditDialogComponent, {
-                height: '80%',
-                width: '70%',
+
                 data: {
                     _id: dataset._id,
                     Matricule: dataset.Matricule,
                     NOM: dataset.NOM,
                     PRENOM: dataset.PRENOM,
                     Civilite: dataset.Civilite,
+                    Age: dataset.Age,
                     SITUATION_FAMILIALE: dataset.SITUATION_FAMILIALE,
                     DateEmbauche: dataset.DateEmbauche,
                     Date_de_Naissance: dataset.Date_de_Naissance,
@@ -581,6 +650,13 @@ export class TurnoverComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result === 1) {
+                swal({
+                    title: 'Succès de modification',
+                    text: 'Informations de ' + dataset.Matricule + ' sont modifiées' ,
+                    showConfirmButton: false,
+                    timer: 2500,
+                    type: 'success'
+                });
                 // Part where we do frontend update, first you need to find record using id
                 const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.Matricule === this.Matricule2);
                 // Then you update that record using dialogData
@@ -599,8 +675,9 @@ export class TurnoverComponent implements OnInit {
             data: {
                 Matricule: dataset.Matricule,
                 NOM: dataset.NOM,
-                Civilite: dataset.Civilite,
-                SITUATION_FAMILIALE: dataset.SITUATION_FAMILIALE
+                PRENOM: dataset.PRENOM
+
+
             }
         });
 
@@ -609,7 +686,13 @@ export class TurnoverComponent implements OnInit {
             if (result === 1) {
                 this.datasetService.deleteDataSet(dataset).subscribe(
                     res => {
-
+                        swal({
+                            title: 'Succès de suppression',
+                            text: 'Informations de ' + dataset.Matricule + ' sont supprimées' ,
+                            showConfirmButton: false,
+                            timer: 2500,
+                            type: 'error'
+                        });
 
                         const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.Matricule === this.Matricule2);
                         console.log(foundIndex);
@@ -655,7 +738,8 @@ export class TurnoverComponent implements OnInit {
                 this.dataSource.filter = this.filter.nativeElement.value;
             });
     }
-    getConvertedDate(convertDate ) {
+
+    getConvertedDate(convertDate) {
 
         var returnDate = "";
         var today = new Date(convertDate);
@@ -677,21 +761,32 @@ export class TurnoverComponent implements OnInit {
         returnDate += yyyy;
         return returnDate;
     }
+
     addDataSet() {
         console.log(this.addDataSetForm.value);
-        this.addDataSetForm.value.DateEmbauche =  this.getConvertedDate(this.addDataSetForm.value.DateEmbauche)
-        this.addDataSetForm.value.Date_de_Naissance =  this.getConvertedDate(this.addDataSetForm.value.Date_de_Naissance)
-        this.addDataSetForm.value.Date_de_depot_de_demission =  this.getConvertedDate(this.addDataSetForm.value.Date_de_depot_de_demission)
-        this.addDataSetForm.value.DATE_SORTIE_Paie =  this.getConvertedDate(this.addDataSetForm.value.DATE_SORTIE_Paie)
-        this.addDataSetForm.value.Date_de_sortie_RH =  this.getConvertedDate(this.addDataSetForm.value.Date_de_sortie_RH)
+        this.addDataSetForm.value.DateEmbauche = this.getConvertedDate(this.addDataSetForm.value.DateEmbauche)
+        this.addDataSetForm.value.Date_de_Naissance = this.getConvertedDate(this.addDataSetForm.value.Date_de_Naissance)
+        this.addDataSetForm.value.Date_de_depot_de_demission = this.getConvertedDate(this.addDataSetForm.value.Date_de_depot_de_demission)
+        this.addDataSetForm.value.DATE_SORTIE_Paie = this.getConvertedDate(this.addDataSetForm.value.DATE_SORTIE_Paie)
+        this.addDataSetForm.value.Date_de_sortie_RH = this.getConvertedDate(this.addDataSetForm.value.Date_de_sortie_RH)
+        this.addDataSetForm.value.DEM = 0;
+
         //this.datePipe.transform(this.addDataSetForm.value.DateEmbauche, 'yyyy/MM/dd');
 
         this.datasetService.addDataSet(this.addDataSetForm.value).subscribe(
-            res => {
-                console.log(typeof res)
-                console.log(res)
+            res =>
+            {let result = JSON.parse(res._body);
+
+                swal({
+                    title: 'Succès d\'ajout',
+                    text: 'Employé ' + result.Matricule + ' ajouté' ,
+                    showConfirmButton: false,
+                    timer: 2500,
+                    type: 'success'
+                });
+
                 console.log(JSON.parse(res._body));
-                console.log('222222');
+
                 this.exampleDatabase.dataChange.value.push(JSON.parse(res._body));
                 this.refreshTable();
             },
@@ -706,381 +801,8 @@ export class TurnoverComponent implements OnInit {
 
 
 
-    predictPerson(row) {
-        this.datasetService.getDataSetbyMatricule(row).subscribe(
-            predict_name => {
-                this.predictionservice.PredictionPerPerson(predict_name).subscribe(
-                    PathFileResult => {
-                        console.log('PathFile');
-                        const File = this.predictionservice.pathFile;
-                        // const File = PathFileResult._body + '/predict.csv';
-                        // const File="/home/ubuntu/h2o/titanic3_csv.csv";
-                        console.log(File);
-
-                        // ******** GET 3/IMPORT with pathFile From server
-                        this.http.get(this.predictionservice.url + '/3/ImportFiles?path=' + File)
-                            .map(res => res.json())
-                            .subscribe(ImportFile => {
-                                    const DestinationFrame = ImportFile.destination_frames[0];
-                                    console.log('Destination Frame');
-                                    console.log(DestinationFrame);
-                                    // this.predictionservice.Parse_predictPerPersonCsv(DestinationFrame);
-                                    this.Parse_predictPerPersonCsv(predict_name, DestinationFrame);
-                                },
-                                error2 => {
-
-                                    // ******** Import Error
-                                    console.log(error2);
-                                    this.erreur(error2, 'Import Error');
-                                });
-
-                    },
-                    error => {
-                        // ******** Error GenerateCsvFile
-                        console.log(error);
-                        this.erreur(error, 'GenerateCsvFile Error ');
-                    }
-                );
-            },
-            erreurPrediction => {
-                this.erreur(erreurPrediction, 'Prediction Person Error ')
-            });
-    }
-    Parse_predictPerPersonCsv(predict_name, PostFileResult) {
-        console.log('erreuuur');
-        console.log(predict_name);
-        console.log(PostFileResult);
-        const parseSetup = new URLSearchParams();
-        parseSetup.append('source_frames', '["' + PostFileResult + '"]');
-        console.log(parseSetup);
-        this.http.post(this.predictionservice.url + '/3/ParseSetup', parseSetup)
-            .map(res => res.json())
-            .subscribe(
-                ParseSetupResult => {
-                    console.log(PostFileResult);
-                    console.log(ParseSetupResult.column_names);
-                    this.column_names = ParseSetupResult.column_names;
-                    console.log(this.column_names);
-                    //console.log(ParseSetupResult.column_types.length);
-                    //console.log(ParseSetupResult.column_types[length]);
-                    //console.log(typeof ParseSetupResult.column_types[ParseSetupResult.column_types.length - 1]);
-                    console.log('*********');
-                    console.log(ParseSetupResult.destination_frame);
-                    const parse = new URLSearchParams();
-                    parse.append('destination_frame', ParseSetupResult.destination_frame);
-                    parse.append('source_frames', '["' + PostFileResult + '"]');
-                    // parse.append('source_frames', '["' + this.Nomfichier + '"]');
-                    parse.append('parse_type', ParseSetupResult.parse_type);
-                    parse.append('separator', ParseSetupResult.separator);
-                    parse.append('number_columns', ParseSetupResult.number_columns);
-                    parse.append('single_quotes', ParseSetupResult.single_quotes);
-                    // convert tab object to string with JSON.stringify()
-                    parse.append('column_names', JSON.stringify(ParseSetupResult.column_names));
-                    /* the type of the predict variable (last item in column_types table) must be Enum */
-                    // ParseSetupResult.column_types[ParseSetupResult.column_types.length - 1] = 'Enum';
-                    /* for (var index_column_name = 0; index_column_name < ParseSetupResult.column_names.length; index_column_name++) {
-                     if (ParseSetupResult.column_names[index_column_name] === 'EXPERIENCE_AVANT_SOFRECOM') {
-                     ParseSetupResult.column_types[index_column_name] = 'int';
-                     }
-                     if (ParseSetupResult.column_names[index_column_name] === 'EXPERIENCE_SOFRECOM') {
-                     ParseSetupResult.column_types[index_column_name] = 'int';
-
-                     }
-                     if (ParseSetupResult.column_names[index_column_name] === 'EXPERIENCE_Totale') {
-                     ParseSetupResult.column_types[index_column_name] = 'int';
-                     }
-                     if (ParseSetupResult.column_names[index_column_name] === 'Age') {
-                     ParseSetupResult.column_types[index_column_name] = 'int';
-                     }
-
-                     }
-                     */
-                    /* convert tab object to string with JSON.stringify() */
-                    parse.append('column_types', JSON.stringify(ParseSetupResult.column_types));
-                    parse.append('check_header', ParseSetupResult.check_header);
-                    parse.append('delete_on_done', 'true');
-                    parse.append('chunk_size', ParseSetupResult.chunk_size);
-                    /* format of parse */
-                    /*destination_frame:Key_Frame__titanic_csv.hex
-                     source_frames:["titanic_csv.csv"]
-                     parse_type:CSV
-                     separator:59
-                     number_columns:15
-                     single_quotes:false
-                     column_names:["pclass","survived","name","sex","age","sibsp","parch","ticket","fare","cabin","embarked","boat","body","home.dest","etat"]
-                     column_types:["Numeric","Numeric","String","Enum","Numeric","Numeric","Numeric","Numeric","Enum","Enum","Enum","Numeric","Numeric","Enum","Enum"]
-                     check_header:1
-                     delete_on_done:true
-                     chunk_size:4194304 */
-
-                    /*   sami ghorbel */
-
-                    this.http.post(this.predictionservice.url + '/3/Parse', parse)
-                        .map(res => res.json())
-                        .subscribe(
-                            ParseResult => {
-                                console.log('**********');
-                                const DataSet = ParseResult.destination_frame.name;
-                                // const DataSet = ParseSetupResult.destination_frame;
-                                /* **********Choose Model ******* */
-                                console.log('Choose a Model');
-                                this.http.get(this.predictionservice.url + '/3/Models')
-                                    .map(this.extractDataModel)
-                                    .subscribe(models => {
-                                            var ModelNameObject = {};
-                                            const FirstModel = models[0].model_id.name;
-                                            //console.log(this.models);
-
-                                            for (const model of models) {
-                                                const id_Model = model.model_id;
-                                                ModelNameObject[id_Model.name] = id_Model.name;
-                                            }
-                                            console.log(typeof FirstModel);
-                                            console.log(FirstModel);
-
-                                            swal({
-                                                title: 'Select Model',
-                                                input: 'select',
-                                                inputOptions: ModelNameObject,
-                                                inputPlaceholder: 'Select Model',
-                                                inputValue: FirstModel,
-                                                showCancelButton: false,
-                                            }).then((ModelResult) => {
-                                                const ModelSelected = ModelResult;
-                                                swal({
-                                                    title: 'Model <span style="color:#6495ED;font-weight:bold">'
-                                                    + ModelResult + '</span> Selected',
-                                                    timer: 1000,
-                                                    showConfirmButton: false,
-                                                    type: 'success'
-                                                }).catch(swal.noop);
-
-                                                /* do prediction */
-                                                this.insert_prediction(predict_name, ModelSelected, DataSet);
-
-                                            })
 
 
-                                        },
-                                        error4 => {
-                                            this.erreur(error4, 'Model Erreur');
-
-                                            this.erreur(error4, 'Model Erreur');
-                                            this.http.delete(this.predictionservice.url + '/3/Frames/' + DataSet)
-                                                .subscribe(DeleteFrame => {
-                                                        console.log('DeleteFrame');
-                                                        console.log(DeleteFrame);
-                                                    },
-                                                    errordelete => {
-                                                        console.log(errordelete);
-                                                    });
-                                        }
-                                    );
-
-
-                            },
-                            error3 => {
-                                console.log(error3);
-                                this.erreur(error3, 'Parse Error');
-                            });
-                },
-                error2 => {
-                    console.log(error2);
-                    this.erreur(error2, 'ParseSetup Error');
-                });
-
-    }
-
-    insert_prediction(predict_name, NameOfModel, NameOfFrame) {
-        const predict_id = 'predict_id';
-        const data = new URLSearchParams();
-        data.append('predictions_frame', predict_id);
-
-        this.http.post(this.predictionservice.url + '/3/Predictions/models/' + NameOfModel + '/frames/' + NameOfFrame, data)
-            .subscribe(PredictionResult => {
-                swal({
-                    imageUrl: 'assets/logo.png',
-                    title: '<br>Loading....',
-                    timer: 1000,
-                    type: 'success',
-                    showConfirmButton: false
-
-                }).then((x) => {
-
-                }).catch(swal.noop);
-                const combined = new URLSearchParams();
-                this.predictionservice.combined_prediction = 'combined-' + predict_id;
-                combined.append('ast', '(assign ' + this.predictionservice.combined_prediction + ' (cbind ' + predict_id + ' ' + NameOfFrame + '))');
-                this.http.post(this.predictionservice.url + '/99/Rapids', combined)
-                    .subscribe(CombinedResult => {
-                        /*swal(
-                         'Prediction added!',
-                         '',
-                         'success'
-                         );*/
-                        this.http.get(this.predictionservice.url + '/3/Frames/' + this.predictionservice.combined_prediction + '?column_offset=0&column_count=20')
-                            .map(this.extractData2)
-                            .subscribe(frames => {
-                                console.log(frames[0].columns);
-                                var InfoPers = {};
-
-                                for (const column_frame of  frames[0].columns) {
-                                    console.log(column_frame);
-
-                                    if (column_frame.label === 'predict') {
-                                        this.predict_value = column_frame.data[0];
-                                        InfoPers[column_frame.label] = column_frame.data[0];
-                                    }
-                                    if (column_frame.label === 'Name') {
-                                        this.name_value = column_frame.domain[column_frame.data[0]];
-
-                                    }
-
-                                    for (const column_name of this.column_names) {
-                                        if (column_frame.label === column_name) {
-                                            if (column_frame.type === 'int') {
-                                                InfoPers[column_name] = column_frame.data[0];
-                                            }
-                                            if (column_frame.type === 'real') {
-                                                InfoPers[column_name] = column_frame.data[0];
-                                            }
-                                            if (column_frame.type === 'enum') {
-                                                InfoPers[column_name] = column_frame.domain[column_frame.data[0]];
-                                            }
-                                            if (column_frame.type === 'time') {
-                                                const dateToConvert = new Date(column_frame.data[0]);
-                                                const ConvertedDate = dateToConvert.getDate() + '/' + (dateToConvert.getMonth() + 1) + '/'
-                                                    + dateToConvert.getFullYear();
-                                                InfoPers[column_name] = ConvertedDate;
-                                            }
-                                        }
-
-                                    }
-
-
-                                }
-
-                                console.log('heeeeere');
-                                console.log(InfoPers);
-                                console.log(this.predict_value);
-                                console.log(this.name_value);
-                                const todayTime = new Date();
-
-                                const hour = ('0' + todayTime.getHours()).slice(-2);
-                                const minute = ('0' + todayTime.getMinutes()).slice(-2);
-                                const sec = ('0' + todayTime.getSeconds()).slice(-2);
-                                const timeNow = hour + ':' + minute + ':' + sec;
-
-
-                                const year = ('0' + todayTime.getFullYear()).slice(-2);
-                                const month = ('0' + (todayTime.getMonth() + 1)).slice(-2);
-                                const day = ('0' + todayTime.getDate()).slice(-2);
-                                const datefull = day + '/' + month + '/' + year;
-                                const obj = {
-                                    'predict': this.predict_value,
-                                    'name': this.name_value,
-                                    'date': datefull,
-                                    'time': timeNow
-                                };
-                                InfoPers['date'] = datefull;
-                                InfoPers['time'] = timeNow;
-                                console.log('obj');
-                                console.log(obj);
-                                console.log(InfoPers);
-                                this.predictionservice.editPrediction(InfoPers).subscribe(
-                                    EditPerPersonResult => {
-                                        this.http.get('http:localhost:4200/api/datasetsMat/' + InfoPers['Matricule'])
-                                            .map(this.extractData3)
-                                            .subscribe(ObjectSendToPredictionList => {
-                                                this.predictionservice.showInfoPerson = ObjectSendToPredictionList;
-                                                /* DELETE*/
-                                                this.http.delete(this.predictionservice.url + '/3/Frames/' + 'predict_id')
-                                                    .subscribe(PredictDelete => {
-                                                    }, errorPredictDelete => {
-                                                        console.log(errorPredictDelete);
-                                                    });
-                                                this.http.delete(this.predictionservice.url + '/3/Frames/' + NameOfFrame)
-                                                    .subscribe(DeleteFrame => {
-                                                            this.http.delete(this.predictionservice.url + '/3/Frames/' + this.predictionservice.combined_prediction)
-                                                                .subscribe(DeleteFrameCombined => {
-                                                                        console.log('DeleteFrameCombined');
-                                                                        console.log(DeleteFrameCombined);
-                                                                        this.router.navigate(['/prediction_list']);
-                                                                        console.log('sami');
-                                                                    },
-                                                                    errordeletecombined => {
-                                                                        console.log(errordeletecombined);
-                                                                    });
-                                                        },
-                                                        errordelete => {
-                                                            console.log(errordelete);
-                                                        });
-
-
-                                            });
-                                    },
-                                    EditPerPersonError => {
-                                        console.log(EditPerPersonError.json());
-                                        this.erreur(EditPerPersonError, 'errorFrame');
-                                    }
-                                );
-
-                            }, errorFrame => {
-                                console.log(errorFrame.json());
-                                this.erreur(errorFrame, 'errorFrame');
-                                this.http.delete(this.predictionservice.url + '/3/Frames/' + NameOfFrame)
-                                    .subscribe(DeleteFrame => {
-                                            console.log('DeleteFrame');
-                                            console.log(DeleteFrame);
-                                        },
-                                        errordelete => {
-                                            console.log(errordelete);
-                                        });
-                            });
-                        /*
-                         let n = 1;
-                         setTimeout(function () {
-                         console.log('timeouuuuuut');
-                         n = n + 10000;
-                         }, 100000);
-                         */
-
-
-                    }, errorCombined => {
-                        console.log(errorCombined.json());
-                        this.erreur(errorCombined, 'errorCombined');
-                    });
-
-
-            }, errorPrediction => {
-                console.log(errorPrediction.json());
-                this.erreur(errorPrediction, 'errorPrediction');
-            });
-    }
-
-    private extractData2(res: Response) {
-
-        const body = res.json();
-        const sami = body.frames;
-
-
-        return sami || {};
-    }
-    private extractDataModel(res: Response) {
-
-        const body = res.json();
-        const sami = body.models;
-
-
-        return sami || {};
-    }
-    private extractData3(res: Response) {
-
-        const body = res.json();
-
-
-        return body || {};
-    }
     public infoPersonne2(dataset: any) {
         console.log(dataset);
         this.datasetService.getDataSetbyMatricule(dataset).subscribe(
@@ -1272,11 +994,6 @@ export class TurnoverComponent implements OnInit {
 }
 
 
-
-
-
-
-
 export class ExampleDataSource extends DataSource<Issue> {
     _filterChange = new BehaviorSubject('');
 
@@ -1315,7 +1032,7 @@ export class ExampleDataSource extends DataSource<Issue> {
             // Filter data
             this.filteredData = this._exampleDatabase.data.slice().filter((issue: Issue) => {
                 //    const searchStr = (issue.Name + issue.SITUATION_FAMILIALE + issue.DateEmbauche).toLowerCase();
-               // const searchStr = (issue.Matricule.toString() +
+                // const searchStr = (issue.Matricule.toString() +
                 const searchStr = (issue.Matricule.toString() + issue.NOM).toLowerCase();
                 return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
             });

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" style="width:485px; !important; ">
 
             <h3 mat-dialog-title>Employé: {{data.NOM + ' ' + data.PRENOM}}</h3>
 
@@ -21,7 +21,21 @@
                     </mat-form-field>
                 </div>
 
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <textarea matInput #input  placeholder="PRENOM" [(ngModel)]="data.PRENOM"
+                                  name="PRENOM" required></textarea>
+                        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
+                </div>
 
+                <div class="form">
+                    <mat-form-field color="accent">
+                        <textarea matInput #input  placeholder="Age" [(ngModel)]="data.Age"
+                                  name="Age" required></textarea>
+                        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
+                </div>
                 <!--Contains mat-hint for characters count and has maxLengt set-->
                 <div class="form">
                     <mat-form-field color="accent">

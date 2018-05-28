@@ -17,13 +17,46 @@ declare const $: any;
 
 @Component({
     selector: 'app-dashboard',
-    templateUrl: './dashboard.component.html'
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     public tableData: TableData;
-    private chart: AmChart;
+    private chartSituationFamiliale: AmChart;
     private chartSeniorite: AmChart;
+    private chartCivilite: AmChart;
+    private chartAge: AmChart;
+    private chart : any;
+    private legend : any;
+    private selected : any;
 
+    private types : any = [{
+        type: "Fossil Energy",
+        percent: 70,
+        subs: [{
+            type: "Oil",
+            percent: 15
+        }, {
+            type: "Coal",
+            percent: 35
+        }, {
+            type: "Nuclear",
+            percent: 20
+        }]
+    }, {
+        type: "Green Energy",
+        percent: 30,
+        subs: [{
+            type: "Hydro",
+            percent: 15
+        }, {
+            type: "Wind",
+            percent: 10
+        }, {
+            type: "Other",
+            percent: 5
+        }]
+    }];
 
     constructor(private AmCharts: AmChartsService,
                 public httpClient: HttpClient,
@@ -35,194 +68,136 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 private router: Router,
                 private formBuilder: FormBuilder) {
     }
-
-    startAnimationForLineChart(chart: any) {
-        let seq: any, delays: any, durations: any;
-        seq = 0;
-        delays = 80;
-        durations = 500;
-        chart.on('draw', function (data: any) {
-
-            if (data.type === 'line' || data.type === 'area') {
-                data.element.animate({
-                    d: {
-                        begin: 600,
-                        dur: 700,
-                        from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
-                        to: data.path.clone().stringify(),
-                        easing: Chartist.Svg.Easing.easeOutQuint
-                    }
-                });
-            } else if (data.type === 'point') {
-                seq++;
-                data.element.animate({
-                    opacity: {
-                        begin: seq * delays,
-                        dur: durations,
-                        from: 0,
-                        to: 1,
-                        easing: 'ease'
-                    }
+    generateChartData() {
+        var chartData = [];
+        for (var i = 0; i < this.types.length; i++) {
+            if (i == this.selected) {
+                for (var x = 0; x < this.types[i].subs.length; x++) {
+                    chartData.push({
+                        type: this.types[i].subs[x].type,
+                        percent: this.types[i].subs[x].percent,
+                        pulled: true
+                    });
+                }
+            } else {
+                chartData.push({
+                    type: this.types[i].type,
+                    percent: this.types[i].percent,
+                    id: i
                 });
             }
-        });
-
-        seq = 0;
+        }
+        return chartData;
     }
 
-    startAnimationForBarChart(chart: any) {
-        let seq2: any, delays2: any, durations2: any;
-        seq2 = 0;
-        delays2 = 80;
-        durations2 = 500;
-        chart.on('draw', function (data: any) {
-            if (data.type === 'bar') {
-                seq2++;
-                data.element.animate({
-                    opacity: {
-                        begin: seq2 * delays2,
-                        dur: durations2,
-                        from: 0,
-                        to: 1,
-                        easing: 'ease'
-                    }
+    generateChartData2(res : any) {
+        var chartData = [];
+        console.log(res);
+        for (var i = 0; i < res.length; i++) {
+            if (i == this.selected) {
+                for (var x = 0; x < res[i].tabs.length; x++) {
+                    chartData.push({
+                        _id: res[i].tabs[x]._id,
+                        count: res[i].tabs[x].count,
+                        pulled: true
+                    });
+                }
+            } else {
+                chartData.push({
+                    _id: res[i]._id,
+                    count: res[i].count,
+                    id: i
                 });
             }
-        });
-
-        seq2 = 0;
+        }
+        return chartData;
     }
-
     // constructor(private navbarTitleService: NavbarTitleService) { }
     public ngOnInit() {
-        this.tableData = {
-            headerRow: ['ID', 'Name', 'Salary', 'Country', 'City'],
-            dataRows: [
-                ['US', 'USA', '2.920	', '53.23%'],
-                ['DE', 'Germany', '1.300', '20.43%'],
-                ['AU', 'Australia', '760', '10.35%'],
-                ['GB', 'United Kingdom	', '690', '7.87%'],
-                ['RO', 'Romania', '600', '5.94%'],
-                ['BR', 'Brasil', '550', '4.34%']
-            ]
-        };
-        /* ----------==========     Daily Sales Chart initialization    ==========---------- */
 
-        const dataDailySalesChart = {
-            labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-            series: [
-                [12, 17, 7, 17, 23, 18, 38]
-            ]
-        };
-
-        const optionsDailySalesChart = {
-            lineSmooth: Chartist.Interpolation.cardinal({
-                tension: 0
-            }),
-            low: 0,
-            high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-            chartPadding: {top: 0, right: 0, bottom: 0, left: 0},
-        };
-
-        const dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
-
-        this.startAnimationForLineChart(dailySalesChart);
-        /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
-
-        const dataCompletedTasksChart = {
-            labels: ['12p', '3p', '6p', '9p', '12p', '3a', '6a', '9a'],
-            series: [
-                [230, 750, 450, 300, 280, 240, 200, 190]
-            ]
-        };
-
-        const optionsCompletedTasksChart = {
-            lineSmooth: Chartist.Interpolation.cardinal({
-                tension: 0
-            }),
-            low: 0,
-            high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better
-            // look
-            chartPadding: {top: 0, right: 0, bottom: 0, left: 0}
-        };
-
-        const completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart,
-            optionsCompletedTasksChart);
-
-        this.startAnimationForLineChart(completedTasksChart);
-
-        /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
-
-        const dataWebsiteViewsChart = {
-            labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-            series: [
-                [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-
-            ]
-        };
-        const optionsWebsiteViewsChart = {
-            axisX: {
-                showGrid: false
-            },
-            low: 0,
-            high: 1000,
-            chartPadding: {top: 0, right: 5, bottom: 0, left: 0}
-        };
-        const responsiveOptions: any = [
-            ['screen and (max-width: 640px)', {
-                seriesBarDistance: 5,
-                axisX: {
-                    labelInterpolationFnc: function (value) {
-                        return value[0];
-                    }
-                }
-            }]
-        ];
-        const websiteViewsChart = new Chartist.Bar('#websiteViewsChart', dataWebsiteViewsChart, optionsWebsiteViewsChart, responsiveOptions);
-
-        this.startAnimationForBarChart(websiteViewsChart);
-
-        const mapData = {
-            'AU': 760,
-            'BR': 550,
-            'CA': 120,
-            'DE': 1300,
-            'FR': 540,
-            'GB': 690,
-            'GE': 200,
-            'IN': 200,
-            'RO': 600,
-            'RU': 300,
-            'US': 2920,
-        };
-        $('#worldMap').vectorMap({
-            map: 'world_mill_en',
-            backgroundColor: 'transparent',
-            zoomOnScroll: false,
-            regionStyle: {
-                initial: {
-                    fill: '#e4e4e4',
-                    'fill-opacity': 0.9,
-                    stroke: 'none',
-                    'stroke-width': 0,
-                    'stroke-opacity': 0
-                }
-            },
-
-            series: {
-                regions: [{
-                    values: mapData,
-                    scale: ['#AAAAAA', '#444444'],
-                    normalizeFunction: 'polynomial'
-                }]
-            },
-        });
     }
 
     ngAfterViewInit() {
+ this.datasetService.count_Civilite().subscribe(res =>{
+         this.chartCivilite = this.AmCharts.makeChart("chartdivCivilite", {
+             "type": "pie",
+             "theme": "light",
+
+             "dataProvider": this.generateChartData2(res),
+             "labelText": "[[title]]: [[value]]",
+             "balloonText": "[[title]]: [[value]]",
+             "titleField": "_id",
+             "valueField": "count",
+             "outlineColor": "#FFFFFF",
+             "outlineAlpha": 0.8,
+             "outlineThickness": 2,
+             "colorField": "color",
+             "marginTop": 0,
+             "pulledField": "pulled",
+             "titles": [{
+                 "text": "Civilité",
+                 'size': 16
+             }],
+             "valueAxes": [{
+                 "title": "Partition par Âge"
+             }],
+             "listeners": [{
+                 "event": "clickSlice",
+                 "method": (event) =>{
+                     var chart = event.chart;
+                     if (event.dataItem.dataContext.id != undefined) {
+                         this.selected = event.dataItem.dataContext.id;
+
+                     } else {
+                         this.selected = undefined;
+                     }
+                     chart.dataProvider = this.generateChartData2(res);
+                     chart.validateData();
+                 }
+             }],
+             "export": {
+                 "enabled": true
+             }
+         });
+     },
+     err => {
+
+     })
+        this.datasetService.count_partition_Age().subscribe(res => {
+            this.chartAge = this.AmCharts.makeChart("chartdivAge", {
+                "theme": "none",
+                "type": "serial",
+                'startDuration': 1,
+                "dataProvider": res,
+                "valueAxes": [{
+                    "title": "Partition par Âge"
+                }],
+                "graphs": [{
+                    "balloonText": "Nombre des employés :[[count]]",
+                    "fillAlphas": 1,
+                    "lineAlpha": 0.2,
+                    "title": "count",
+                    "type": "column",
+                    "valueField": "count"
+                }],
+                "depth3D": 20,
+                "angle": 30,
+                "rotate": true,
+                "categoryField": "_id",
+                "categoryAxis": {
+                    "gridPosition": "start",
+                    "fillAlpha": 0.05,
+                    "position": "left"
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
+        }, erreur => {
+        });
 
         this.datasetService.count_SITUATION_FAMILIALE().subscribe(res => {
-            this.chart = this.AmCharts.makeChart('chartSituationFamiliale', {
+            this.chartSituationFamiliale = this.AmCharts.makeChart('chartSituationFamiliale', {
                 'type': 'pie',
                 'theme': 'light',
                 'titles': [{
@@ -233,7 +208,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 'valueField': 'count',
                 'titleField': '_id',
                 'startEffect': 'elastic',
-                'startDuration': 2,
+                'startDuration': 1,
                 'labelRadius': 15,
                 'innerRadius': '50%',
                 'depth3D': 10,
@@ -265,6 +240,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 "startX": -500,
                 "depth3D": 100,
                 "angle": 40,
+                'startDuration': 1,
                 "outlineAlpha": 1,
                 "outlineColor": "#FFFFFF",
                 "outlineThickness": 2,
