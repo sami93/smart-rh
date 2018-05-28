@@ -141,7 +141,7 @@ export class NavbarComponent implements OnInit {
                 }
             }
         }
-        return 'Historique de Prédiction';
+        return 'Prédiction';
     }
     getPath() {
         return this.location.prepareExternalUrl(this.location.path());

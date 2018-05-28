@@ -1,0 +1,74 @@
+.table td, .table th {
+    text-align: center;
+    width: 25%;
+}
+/* Structure */
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Toolbar */
+.spacer {
+    flex: 1 1 auto;
+}
+
+/* Filter */
+.form {
+    min-height: 56px;
+    max-height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 8px 24px 0;
+    font-size: 20px;
+    justify-content: space-between;
+    border-bottom: 1px solid transparent;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    flex-grow: 1;
+    margin-top: 8px;
+}
+
+/* Mat table */
+.no-results {
+    display: flex;
+    justify-content: center;
+    padding: 14px;
+    font-size: 14px;
+    font-style: italic;
+}
+.mat-cell:nth-child(1),
+.mat-header-cell:nth-child(1){
+    flex: 10 20 0%;
+}
+
+.mat-cell:nth-child(2),
+.mat-header-cell:nth-child(2){
+    flex: 50 50 0%;
+}
+
+#bg {
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 10%;
+    height: 10%;
+}
+#bg img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    min-width: 50%;
+    min-height: 50%;
+}
+#bg img {
+    opacity: 1.0;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+}
+
+
