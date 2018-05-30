@@ -276,7 +276,7 @@ this.datasetService.getListe_Manager().subscribe(res => {
             swal({
                 title: 'Chargement Prédiction ...',
                 text: 'Il va se fermer en quelques secondes.',
-                timer: 7000,
+                timer: 70000,
                 onOpen: () => {
                     this.datasetService.predictionPerPerson(row).subscribe(
 

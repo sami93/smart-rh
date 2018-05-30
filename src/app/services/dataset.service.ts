@@ -25,6 +25,12 @@ export class DataSetService {
     count_Seniorite(): Observable<any> {
         return this.http.get(this.urlservice.url  + '/api/dataset/count_Seniorite').map(res => res.json());
     }
+    count_Manager(): Observable<any> {
+        return this.http.get(this.urlservice.url  + '/api/dataset/count_Manager2').map(res => res.json());
+    }
+    count_Pole(): Observable<any> {
+        return this.http.get(this.urlservice.url  + '/api/dataset/count_Pole').map(res => res.json());
+    }
 
     count_SITUATION_FAMILIALE(): Observable<any> {
         return this.http.get(this.urlservice.url  + '/api/dataset/count_SITUATION_FAMILIALE').map(res => res.json());

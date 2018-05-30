@@ -21,6 +21,15 @@
     padding-bottom: 0;
     padding-left: 0;
 }
+.placeholder {
+    color: #F9F7F3;
+    font-weight: 800
+}
+
+.md-input-focused  .placeholder {
+    color: #F9F7F3;;
+    font-weight: 800
+}
 
 .emoji{
     display:inline-block;

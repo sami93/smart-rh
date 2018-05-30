@@ -15,6 +15,7 @@ import {HttpModule} from '@angular/http';
 import {TeximateModule} from 'ng-teximate';
 import {ParticlesModule} from 'angular-particle';
 import {HttpClientModule} from '@angular/common/http';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import {HttpClientModule} from '@angular/common/http';
         HttpClientModule,
         HttpModule,
         ParticlesModule,
-        TeximateModule
+        TeximateModule,
+        MatDatepickerModule
     ],
     declarations: [DashboardComponent],
     providers: [
